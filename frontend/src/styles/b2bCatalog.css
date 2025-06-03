@@ -1,0 +1,35 @@
+/* b2bCatalog.css */
+
+.catalog-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-lg) 0;
+  text-align: center;
+}
+
+.catalog-title {
+  font-size: 2rem;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.info-box {
+  margin-top: var(--space-md);
+  padding: var(--space-lg);
+  background-color: #e0f2fe; /* Azul muy suave */
+  border: 1px solid #bae6fd;
+  border-radius: var(--radius-md);
+  color: #1e3a8a; /* Azul más oscuro */
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+.loader {
+  font-size: 1.125rem;
+  color: var(--color-primary);
+}

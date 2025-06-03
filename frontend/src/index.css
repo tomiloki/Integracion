@@ -1,0 +1,497 @@
+/* =============================================================================
+   index.css
+   CSS global para la aplicación AutoParts (versión 2025)
+   Documentación integrada con comentarios explicativos.
+   ============================================================================= */
+
+/* ----------------------------
+   1. RESET / NORMALIZACIÓN BÁSICA
+   ---------------------------- */
+/* Eliminamos márgenes y paddings por defecto, y configuramos box-sizing */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Deshabilitamos subrayado por defecto en enlaces y listas */
+a,
+a:visited {
+  text-decoration: none;
+}
+
+ul {
+  list-style: none;
+}
+
+/* Definimos la fuente base y colores neutrales */
+:root {
+  /* Paleta de colores */
+  --color-primary: #2563eb;          /* Azul principal (confianza, tecnología) */
+  --color-primary-dark: #1e4ab8;     /* Versión oscura para hover/states */
+  --color-text: #1f2937;             /* Gris oscuro para texto principal */
+  --color-bg: #f8fafc;               /* Gris muy claro para fondo general */
+  --color-card-bg: #ffffff;          /* Fondo de tarjetas / o white */
+  --color-border: #e2e8f0;           /* Border gris claro */
+  --color-accent: #dc2626;           /* Rojo para alertas / promociones */
+  --color-link: #2563eb;             /* Color de enlaces */
+  --color-link-hover: #1e4ab8;       /* Hover de enlaces */
+
+  /* Espaciado base */
+  --space-xs: 0.25rem;   /* 4px */
+  --space-sm: 0.5rem;    /* 8px */
+  --space-md: 1rem;      /* 16px */
+  --space-lg: 1.5rem;    /* 24px */
+  --space-xl: 2rem;      /* 32px */
+
+  /* Radios base */
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 1rem;      /* 16px */
+
+  /* Tipografía base */
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+               'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji',
+               'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono: 'Courier New', Courier, 'Lucida Sans Typewriter', 'Lucida Typewriter',
+               monospace;
+}
+
+/* Fuente global y color de fondo para toda la aplicación */
+html,
+body {
+  height: 100%;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Etiquetas semánticas */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--color-text);
+  margin-bottom: var(--space-md);
+  line-height: 1.25;
+}
+
+/* -----------------------------------
+   2. UTILIDADES Y CLASES REUTILIZABLES
+   ----------------------------------- */
+/* Ocultar elementos (por ejemplo, iconos de carregando) */
+.u-hidden {
+  display: none !important;
+}
+
+/* Centrador de elementos de bloque */
+.u-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Contenedores de ancho máximo para centrar */
+.container {
+  width: 100%;
+  padding-left: var(--space-md);
+  padding-right: var(--space-md);
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
+/* Botones base */
+.btn {
+  display: inline-block;
+  font-weight: 600;
+  text-align: center;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+
+/* Botón primario */
+.btn-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: var(--space-sm) var(--space-md);
+}
+.btn-primary:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+.btn-primary:active {
+  transform: translateY(1px);
+}
+.btn-primary:focus {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+/* Botón secundario (para acciones alternativas) */
+.btn-secondary {
+  background-color: var(--color-border);
+  color: var(--color-text);
+  padding: var(--space-sm) var(--space-md);
+}
+.btn-secondary:hover {
+  background-color: #d1d5db;
+}
+
+/* --------------------------------------
+   3. NAVEGACIÓN PRINCIPAL (Navbar)
+   -------------------------------------- */
+.navbar {
+  background-color: #eeeeee; /* Gris claro de ejemplo */
+  padding: var(--space-md) 0;
+}
+
+.navbar .nav-list {
+  display: flex;
+  gap: var(--space-lg);
+  justify-content: center;
+  align-items: center;
+}
+
+.navbar .nav-list li {
+  /* Nada extra a agregar, el spacing está en el gap */
+}
+
+.navbar .nav-list li a {
+  color: var(--color-link);
+  font-weight: 500;
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease-in-out;
+}
+.navbar .nav-list li a:hover {
+  background-color: rgba(37, 99, 235, 0.1); /* Versión transparente de color-primary */
+}
+
+/* --------------------------------------
+   4. CATÁLOGO DE PRODUCTOS (Grid Responsivo)
+   -------------------------------------- */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-xl);
+  margin-top: var(--space-lg);
+}
+
+/* --------------------------------------
+   5. TARJETA DE PRODUCTO (Card)
+   -------------------------------------- */
+/* Contenedor de la tarjeta */
+.product-card {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 100%;
+  min-height: 350px;
+  position: relative;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Efecto hover: sombra más intensa y leve elevación */
+.product-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+}
+
+/* Badge de marca */
+.product-card .product-badge {
+  position: absolute;
+  top: var(--space-md);
+  left: var(--space-md);
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 0.675rem;  /* ~11px */
+  font-weight: 700;
+  padding: 0.125rem 0.5rem;  /* pequeño padding vertical/horizontal */
+  border-radius: var(--radius-sm);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+/* Contenedor de imagen */
+.product-card .product-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 180px;
+  margin-top: var(--space-lg);
+}
+.product-card .product-image-container {
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  width: 112px;  /* ~28 * 4 px */
+  height: 112px; /* ~28 * 4 px */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.product-card .product-image-container img {
+  max-width: 80px;
+  max-height: 80px;
+  object-fit: contain;
+}
+
+/* Nombre del producto */
+.product-card .product-name {
+  font-size: 1rem;                /* ~16px */
+  font-weight: 700;
+  color: var(--color-text);
+  text-align: center;
+  padding: 0 var(--space-sm);
+  margin: var(--space-sm) 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* SKU */
+.product-card .product-sku {
+  font-size: 0.675rem;            /* ~11px */
+  color: #6b7280;                 /* slate-400 equivalente */
+  font-family: var(--font-mono);
+  text-align: center;
+  margin-bottom: var(--space-sm);
+}
+
+/* Precio */
+.product-card .product-price {
+  font-size: 1.125rem;            /* ~18px */
+  font-weight: 800;
+  color: var(--color-primary);
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+/* Botón “Agregar al carrito” */
+.product-card .btn-add-cart {
+  margin: 0 var(--space-sm) var(--space-md) var(--space-sm);
+  padding: var(--space-sm) 0;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: var(--radius-md);
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+.product-card .btn-add-cart:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+.product-card .btn-add-cart:active {
+  transform: translateY(1px);
+}
+.product-card .btn-add-cart:focus {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------
+   6. FORMULARIOS (Login / Registro)
+   -------------------------------------- */
+.form-container {
+  background-color: var(--color-card-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  max-width: 400px;
+  width: 100%;
+  margin: var(--space-xl) auto;
+  padding: var(--space-lg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: var(--space-md);
+}
+
+.form-field {
+  margin-bottom: var(--space-md);
+}
+.form-field label {
+  display: block;
+  font-size: 0.875rem;   /* ~14px */
+  margin-bottom: var(--space-xs);
+  color: var(--color-text);
+}
+.form-field input {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: border-color 0.2s ease-in-out;
+}
+.form-field input:focus {
+  border-color: var(--color-primary);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.3);
+}
+
+.form-submit {
+  width: 100%;
+  padding: var(--space-sm);
+  background-color: var(--color-primary);
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+}
+.form-submit:hover {
+  background-color: var(--color-primary-dark);
+  transform: translateY(-1px);
+}
+.form-submit:active {
+  transform: translateY(1px);
+}
+.form-submit:focus {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+/* --------------------------------------
+   7. CARRITO (Carrito de Compras)
+   -------------------------------------- */
+/* Contenedor del carrito completo */
+.cart-container {
+  max-width: 800px;
+  margin: var(--space-xl) auto;
+  padding: var(--space-md);
+}
+
+/* Lista de artículos en carrito */
+.cart-list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-lg);
+}
+.cart-list th,
+.cart-list td {
+  border: 1px solid var(--color-border);
+  padding: var(--space-sm);
+  text-align: left;
+}
+.cart-list th {
+  background-color: #f1f5f9; /* slate-100 */
+  font-weight: 600;
+}
+
+/* Resumen del carrito */
+.cart-summary {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: var(--space-md);
+}
+
+/* --------------------------------------
+   8. ESTILOS ADICIONALES / UTILERÍAS
+   -------------------------------------- */
+/* Centrado vertical horizontal */
+.d-flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Margen útil */
+.m-around {
+  margin: var(--space-md);
+}
+
+/* Tablas básicas (para logs o data) */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th,
+.table td {
+  border: 1px solid var(--color-border);
+  padding: var(--space-sm);
+}
+
+/* Scroll horizontal en contenedores anchos */
+.overflow-x-auto {
+  overflow-x: auto;
+}
+
+/* --------------------------------------
+   9. MEDIA QUERIES (Puntos de ruptura)
+   -------------------------------------- */
+/* Punto de interrupción “sm” (≤ 640px) */
+@media (max-width: 639px) {
+  .product-card {
+    min-height: auto;
+  }
+  .product-card .product-image-wrapper {
+    height: 140px;
+  }
+}
+
+/* Punto de interrupción “md” (≤ 768px) */
+@media (max-width: 767px) {
+  .navbar .nav-list {
+    flex-direction: column;
+    gap: var(--space-md);
+  }
+  .form-container {
+    margin: var(--space-lg) var(--space-md);
+  }
+}
+
+/* Punto de interrupción “lg” (≤ 1024px) */
+@media (max-width: 1023px) {
+  .product-grid {
+    gap: var(--space-lg);
+  }
+}
+
+/* Punto de interrupción “xl” (≤ 1280px) */
+@media (max-width: 1279px) {
+  .container {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+  }
+}
+
+/* =============================================================================
+   Fin de index.css
+   ============================================================================= */

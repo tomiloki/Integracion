@@ -1,0 +1,658 @@
+/* ============================================================
+   1. VARIABLES CSS Y RESET BÁSICO
+   ============================================================ */
+:root {
+  /* Colores principales */
+  --color-primary: #1e3a8a;        /* Azul oscuro */
+  --color-primary-light: #2563eb;  /* Azul intenso */
+  --color-secondary: #64748b;      /* Gris neutro */
+  --color-accent: #dc2626;         /* Rojo/alertas */
+  --color-bg: #f8fafc;             /* Gris muy claro de fondo */
+  --color-border: #e2e8f0;         /* Gris claro para bordes */
+  --white: #ffffff;
+  --gray-dark: #1f2937;
+  --gray-medium: #6b7280;
+  --gray-light: #f1f5f9;
+
+  --font-base: 'Inter', sans-serif;
+
+  --radius-sm: 0.25rem;
+  --radius-md: 0.5rem;
+  --radius-lg: 1rem;
+
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 2rem;
+}
+
+/* Reset global */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: var(--font-base);
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--gray-dark);
+  line-height: 1.5;
+}
+
+/* Enlaces sin subrayado */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Listas sin viñetas */
+ul {
+  list-style: none;
+}
+
+/* Botones base */
+button {
+  font-family: var(--font-base);
+  cursor: pointer;
+}
+
+/* ============================================================
+   2. LAYOUT GENERAL
+   ============================================================ */
+/* Contenedor principal de contenido */
+.main-content {
+  padding: var(--space-lg) var(--space-md);
+  min-height: calc(100vh - 8rem); /* Ajusta para navbar y footer */
+}
+
+/* Contenedor centrado para estados “loading” */
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
+/* Loader simple */
+.loader {
+  font-size: 1.125rem;
+  color: var(--color-primary-light);
+}
+
+/* ============================================================
+   3. BOTONES Y COMPONENTES BASE
+   ============================================================ */
+/* Botón primario */
+.btn-primary {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-primary-light);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary);
+}
+
+/* Botón secundario */
+.btn-secondary {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-secondary);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 500;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563; /* Gris más oscuro */
+}
+
+/* Botón “Cerrar Sesión” (outline) */
+.btn-logout {
+  padding: 0.4rem 0.8rem;
+  background-color: transparent;
+  color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: var(--radius-sm);
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-logout:hover {
+  background-color: var(--color-accent);
+  color: var(--white);
+}
+
+/* ============================================================
+   4. NAVBAR
+   ============================================================ */
+.navbar {
+  background-color: var(--white);
+  border-bottom: 1px solid var(--color-border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 4.5rem;
+}
+
+/* Logo / Marca */
+.navbar-brand {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--color-primary-light);
+}
+
+.navbar-brand .brand-part1 {
+  color: var(--color-primary-light);
+}
+
+.navbar-brand .brand-part2 {
+  color: var(--color-accent);
+}
+
+/* Menú de navegación */
+.navbar-menu {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.nav-link {
+  font-size: 0.95rem;
+  color: var(--gray-dark);
+  padding: var(--space-xs) var(--space-sm);
+  border-radius: var(--radius-sm);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  position: relative;
+}
+
+.nav-link:hover {
+  background-color: var(--color-border);
+  color: var(--color-primary-light);
+}
+
+/* Dropdown de categorías */
+.nav-link.categories {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.nav-link.categories .dropdown-icon {
+  margin-left: var(--space-xs);
+  font-size: 0.8rem;
+  transition: transform 0.2s ease;
+}
+
+.nav-link.categories.open .dropdown-icon {
+  transform: rotate(180deg);
+}
+
+.nav-dropdown {
+  position: absolute;
+  top: 110%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 200;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
+}
+
+/* Mostrar dropdown cuando .open */
+.nav-link.categories.open + .nav-dropdown {
+  opacity: 1;
+  visibility: visible;
+}
+
+.nav-dropdown ul {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-dropdown li {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.nav-dropdown li:last-child {
+  border-bottom: none;
+}
+
+.nav-dropdown a {
+  display: block;
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+  transition: background-color 0.2s ease;
+}
+
+.nav-dropdown a:hover {
+  background-color: var(--color-bg);
+  color: var(--color-primary-light);
+}
+
+/* Barra de búsqueda */
+.navbar-search {
+  position: relative;
+  flex: 1;
+  max-width: 300px;
+  margin: 0 var(--space-md);
+}
+
+.search-input {
+  width: 100%;
+  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
+  padding-right: 2.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  font-size: 0.9rem;
+  color: var(--gray-dark);
+  background-color: var(--white);
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+}
+
+.btn-search {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  color: var(--gray-medium);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.btn-search:hover {
+  color: var(--color-primary-light);
+}
+
+/* Acciones (botones de login/registro o logout) */
+.navbar-actions {
+  display: flex;
+  gap: var(--space-sm);
+  align-items: center;
+}
+
+/* ============================================================
+   5. RESPONSIVIDAD DEL NAVBAR
+   ============================================================ */
+@media (max-width: 1024px) {
+  .navbar-container {
+    flex-wrap: wrap;
+    height: auto;
+    padding: var(--space-sm);
+  }
+
+  .navbar-menu {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    margin: var(--space-sm) 0;
+  }
+
+  .navbar-search {
+    width: 100%;
+    margin: var(--space-sm) 0;
+  }
+
+  .navbar-actions {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: var(--space-sm);
+  }
+}
+
+/* ============================================================
+   6. CATÁLOGO PÚBLICO
+   ============================================================ */
+.catalog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-lg) 0;
+}
+
+.catalog-title {
+  font-size: 2rem;
+  color: var(--gray-dark);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.no-products {
+  text-align: center;
+  font-size: 1.125rem;
+  color: var(--gray-medium);
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-lg);
+}
+
+/* ============================================================
+   7. PRODUCT CARD
+   ============================================================ */
+.product-card {
+  background-color: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative;
+}
+
+.product-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.badge {
+  background-color: var(--color-primary-light);
+  color: var(--white);
+  padding: var(--space-xs) var(--space-sm);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  position: absolute;
+  top: var(--space-sm);
+  left: var(--space-sm);
+  border-radius: var(--radius-sm);
+}
+
+.image-container {
+  width: 100%;
+  padding-top: 75%; /* Aspect ratio 4:3 */
+  position: relative;
+  background-color: var(--gray-light);
+}
+
+.image-container img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+}
+
+.product-name {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--gray-dark);
+  margin: var(--space-md) var(--space-sm) 0;
+  flex-grow: 1;
+}
+
+.product-sku {
+  font-size: 0.875rem;
+  color: var(--gray-medium);
+  margin: var(--space-xs) var(--space-sm);
+}
+
+.product-price {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--color-primary-light);
+  margin: var(--space-xs) var(--space-sm);
+}
+
+.btn-add-cart {
+  margin: var(--space-md) var(--space-sm) var(--space-sm);
+  padding: var(--space-sm);
+  background-color: var(--color-primary-light);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+}
+
+.btn-add-cart:hover {
+  background-color: var(--color-primary);
+}
+
+/* ============================================================
+   8. B2B CATÁLOGO
+   ============================================================ */
+.b2b-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: var(--space-lg) 0;
+  text-align: center;
+}
+
+.b2b-title {
+  font-size: 2rem;
+  color: var(--gray-dark);
+  margin-bottom: var(--space-md);
+}
+
+.info-box {
+  margin-top: var(--space-md);
+  padding: var(--space-lg);
+  background-color: #e0f2fe; /* Azul muy suave */
+  border: 1px solid #bae6fd;
+  border-radius: var(--radius-md);
+  color: #1e3a8a; /* Azul más oscuro */
+}
+
+/* ============================================================
+   9. CARRITO
+   ============================================================ */
+.cart-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-lg) 0;
+}
+
+.cart-list {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: var(--space-md);
+}
+
+.cart-list th,
+.cart-list td {
+  padding: var(--space-sm) var(--space-xs);
+  border: 1px solid var(--color-border);
+  text-align: left;
+}
+
+.cart-summary {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: var(--space-md);
+}
+
+.cart-summary span {
+  margin-right: var(--space-sm);
+}
+
+/* ============================================================
+   10. FORMULARIOS (LOGIN / REGISTER)
+   ============================================================ */
+.card {
+  max-width: 420px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: var(--white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: var(--space-md);
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.form-field {
+  margin-bottom: var(--space-md);
+}
+
+.form-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+  color: var(--gray-dark);
+}
+
+.form-field input,
+.form-field select {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  color: var(--gray-dark);
+  background-color: var(--gray-light);
+  transition: border-color 0.2s ease;
+}
+
+.form-field input:focus,
+.form-field select:focus {
+  outline: none;
+  border-color: var(--color-primary-light);
+}
+
+/* Campos de password con “ojo” */
+.password-field .password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 2.5rem;
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--gray-medium);
+  padding: 0;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-visibility:hover {
+  color: var(--gray-dark);
+}
+
+.error {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  margin-top: var(--space-xs);
+}
+
+.error.general {
+  text-align: center;
+  margin-bottom: var(--space-md);
+}
+
+.success {
+  background-color: #d1fae5; /* Verde suave */
+  color: #065f46;            /* Verde oscuro */
+  border: 1px solid #10b981;
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  margin-bottom: var(--space-md);
+  text-align: center;
+  font-weight: 500;
+}
+
+.form-submit {
+  width: 100%;
+  background-color: var(--color-primary-light);
+  color: var(--white);
+  padding: var(--space-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form-submit:hover {
+  background-color: var(--color-primary);
+}
+
+.small-text {
+  text-align: center;
+  margin-top: var(--space-md);
+  font-size: 0.9rem;
+  color: var(--gray-medium);
+}
+
+.small-text .link {
+  color: var(--color-primary-light);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.small-text .link:hover {
+  color: var(--color-primary);
+}
+
+/* ============================================================
+   11. FOOTER
+   ============================================================ */
+.footer {
+  background-color: var(--gray-dark);
+  color: var(--white);
+  text-align: center;
+  padding: var(--space-md) 0;
+}
+
+.footer-container p {
+  font-size: 0.9rem;
+}

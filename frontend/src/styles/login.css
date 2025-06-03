@@ -1,0 +1,121 @@
+/* login.css */
+
+.card {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #ffffff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.form-title {
+  text-align: center;
+  margin-bottom: var(--space-md);
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  font-weight: 600;
+}
+
+.form-field {
+  margin-bottom: var(--space-md);
+}
+
+.form-field label {
+  display: block;
+  font-weight: 500;
+  margin-bottom: var(--space-xs);
+  color: #374151;
+}
+
+.form-field input {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  color: #111827;
+  background-color: #f9fafb;
+  transition: border-color 0.2s ease;
+}
+
+.form-field input:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.password-field .password-wrapper {
+  position: relative;
+}
+
+.password-wrapper input {
+  padding-right: 2.5rem;
+}
+
+.toggle-visibility {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0;
+}
+
+.toggle-visibility:hover {
+  color: #374151;
+}
+
+.success {
+  background-color: #d1fae5; /* verde suave */
+  color: #065f46; /* verde oscuro */
+  border: 1px solid #10b981;
+  border-radius: var(--radius-sm);
+  padding: var(--space-sm);
+  margin-bottom: var(--space-md);
+  text-align: center;
+  font-weight: 500;
+}
+
+.error {
+  color: var(--color-accent);
+  font-size: 0.875rem;
+  margin-top: var(--space-xs);
+  text-align: center;
+}
+
+.form-submit {
+  width: 100%;
+  background-color: var(--color-primary);
+  color: #ffffff;
+  padding: var(--space-sm);
+  border: none;
+  border-radius: var(--radius-md);
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.form-submit:hover {
+  background-color: var(--color-primary-dark);
+}
+
+.alternative {
+  text-align: center;
+  margin-top: var(--space-md);
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.alternative .link {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
+.alternative .link:hover {
+  color: var(--color-primary-dark);
+}

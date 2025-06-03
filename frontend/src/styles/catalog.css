@@ -1,0 +1,26 @@
+/* catalog.css */
+
+.catalog-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-lg) 0;
+}
+
+.catalog-title {
+  font-size: 2rem;
+  color: var(--color-secondary);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.no-products {
+  text-align: center;
+  font-size: 1.125rem;
+  color: #6b7280;
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: var(--space-lg);
+}
