@@ -1,658 +1,258 @@
-/* ============================================================
-   1. VARIABLES CSS Y RESET BÁSICO
-   ============================================================ */
-:root {
-  /* Colores principales */
-  --color-primary: #1e3a8a;        /* Azul oscuro */
-  --color-primary-light: #2563eb;  /* Azul intenso */
-  --color-secondary: #64748b;      /* Gris neutro */
-  --color-accent: #dc2626;         /* Rojo/alertas */
-  --color-bg: #f8fafc;             /* Gris muy claro de fondo */
-  --color-border: #e2e8f0;         /* Gris claro para bordes */
-  --white: #ffffff;
-  --gray-dark: #1f2937;
-  --gray-medium: #6b7280;
-  --gray-light: #f1f5f9;
+/* src/styles/app.css */
 
-  --font-base: 'Inter', sans-serif;
-
-  --radius-sm: 0.25rem;
-  --radius-md: 0.5rem;
-  --radius-lg: 1rem;
-
-  --space-xs: 0.25rem;
-  --space-sm: 0.5rem;
-  --space-md: 1rem;
-  --space-lg: 2rem;
-}
-
-/* Reset global */
-* {
+/* 1. Reset & box-sizing */
+*,
+*::before,
+*::after {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: var(--font-base);
 }
 
+/* 2. Variables globales */
+:root {
+  /* Colores */
+  --color-bg: #F5F7FA;
+  --color-surface: #FFFFFF;
+  --color-primary: #2C3E50;
+  --color-primary-light: #34495E;
+  --color-accent: #E67E22;
+  --color-accent-light: #F39C12;
+  --color-on-primary: #FFFFFF;
+  --color-on-surface: #333333;
+  --color-border: #E2E8F0;
+  --color-muted: #7F8C8D;
+
+  /* Tipografía */
+  --font-base: 'Inter', sans-serif;
+  --font-heading: 'Poppins', sans-serif;
+  --font-size-base: 1rem;      /* 16px */
+  --line-height-base: 1.6;
+
+  /* Espaciados */
+  --space-xs: 0.25rem;  /* 4px */
+  --space-sm: 0.5rem;   /* 8px */
+  --space-md: 1rem;     /* 16px */
+  --space-lg: 1.5rem;   /* 24px */
+  --space-xl: 2rem;     /* 32px */
+
+  /* Bordes y radios */
+  --border-radius: 0.5rem; /* 8px */
+  --border-width: 1px;
+
+  /* Breakpoints */
+  --bp-sm: 576px;
+  --bp-md: 768px;
+  --bp-lg: 992px;
+  --bp-xl: 1200px;
+}
+
+/* 3. Base styles */
+html {
+  font-size: 100%;
+}
 body {
-  background-color: var(--color-bg);
-  color: var(--gray-dark);
-  line-height: 1.5;
-}
-
-/* Enlaces sin subrayado */
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* Listas sin viñetas */
-ul {
-  list-style: none;
-}
-
-/* Botones base */
-button {
   font-family: var(--font-base);
-  cursor: pointer;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-base);
+  color: var(--color-on-surface);
+  background-color: var(--color-bg);
+  min-height: 100vh;
 }
 
-/* ============================================================
-   2. LAYOUT GENERAL
-   ============================================================ */
-/* Contenedor principal de contenido */
-.main-content {
-  padding: var(--space-lg) var(--space-md);
-  min-height: calc(100vh - 8rem); /* Ajusta para navbar y footer */
+/* Tipos de texto */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-primary);
+  margin-bottom: var(--space-md);
+}
+h1 { font-size: 2.25rem; }
+h2 { font-size: 1.875rem; }
+h3 { font-size: 1.5rem; }
+h4 { font-size: 1.25rem; }
+h5 { font-size: 1rem; }
+h6 { font-size: 0.875rem; }
+
+p {
+  margin-bottom: var(--space-md);
 }
 
-/* Contenedor centrado para estados “loading” */
-.center-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 50vh;
-}
-
-/* Loader simple */
-.loader {
-  font-size: 1.125rem;
-  color: var(--color-primary-light);
-}
-
-/* ============================================================
-   3. BOTONES Y COMPONENTES BASE
-   ============================================================ */
-/* Botón primario */
-.btn-primary {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: var(--color-primary-light);
-  color: var(--white);
-  border: none;
-  border-radius: var(--radius-md);
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
-}
-
-.btn-primary:hover {
-  background-color: var(--color-primary);
-}
-
-/* Botón secundario */
-.btn-secondary {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background-color: var(--color-secondary);
-  color: var(--white);
-  border: none;
-  border-radius: var(--radius-md);
-  font-weight: 500;
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease;
-}
-
-.btn-secondary:hover {
-  background-color: #4b5563; /* Gris más oscuro */
-}
-
-/* Botón “Cerrar Sesión” (outline) */
-.btn-logout {
-  padding: 0.4rem 0.8rem;
-  background-color: transparent;
+a {
   color: var(--color-accent);
-  border: 1px solid var(--color-accent);
-  border-radius: var(--radius-sm);
-  font-size: 0.9rem;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+a:hover {
+  color: var(--color-accent-light);
 }
 
-.btn-logout:hover {
-  background-color: var(--color-accent);
-  color: var(--white);
+/* Listas */
+ul, ol {
+  margin-left: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+li {
+  margin-bottom: var(--space-xs);
 }
 
-/* ============================================================
-   4. NAVBAR
-   ============================================================ */
-.navbar {
-  background-color: var(--white);
-  border-bottom: 1px solid var(--color-border);
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-}
-
-.navbar-container {
-  max-width: 1200px;
+/* 4. Layout helpers */
+.container {
+  width: 100%;
+  max-width: var(--bp-xl);
   margin: 0 auto;
   padding: 0 var(--space-md);
+}
+
+.flex {
+  display: flex;
+}
+.flex-center {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  height: 4.5rem;
+  justify-content: center;
 }
-
-/* Logo / Marca */
-.navbar-brand {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: var(--color-primary-light);
-}
-
-.navbar-brand .brand-part1 {
-  color: var(--color-primary-light);
-}
-
-.navbar-brand .brand-part2 {
-  color: var(--color-accent);
-}
-
-/* Menú de navegación */
-.navbar-menu {
-  display: flex;
-  gap: var(--space-md);
-}
-
-.nav-link {
-  font-size: 0.95rem;
-  color: var(--gray-dark);
-  padding: var(--space-xs) var(--space-sm);
-  border-radius: var(--radius-sm);
-  transition: background-color 0.2s ease, color 0.2s ease;
-  position: relative;
-}
-
-.nav-link:hover {
-  background-color: var(--color-border);
-  color: var(--color-primary-light);
-}
-
-/* Dropdown de categorías */
-.nav-link.categories {
-  display: flex;
-  align-items: center;
-  cursor: pointer;
-}
-
-.nav-link.categories .dropdown-icon {
-  margin-left: var(--space-xs);
-  font-size: 0.8rem;
-  transition: transform 0.2s ease;
-}
-
-.nav-link.categories.open .dropdown-icon {
-  transform: rotate(180deg);
-}
-
-.nav-dropdown {
-  position: absolute;
-  top: 110%;
-  left: 50%;
-  transform: translateX(-50%);
-  background-color: var(--white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  min-width: 200px;
-  z-index: 200;
-  overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.2s ease, visibility 0.2s ease;
-}
-
-/* Mostrar dropdown cuando .open */
-.nav-link.categories.open + .nav-dropdown {
-  opacity: 1;
-  visibility: visible;
-}
-
-.nav-dropdown ul {
-  display: flex;
-  flex-direction: column;
-}
-
-.nav-dropdown li {
-  border-bottom: 1px solid var(--color-border);
-}
-
-.nav-dropdown li:last-child {
-  border-bottom: none;
-}
-
-.nav-dropdown a {
-  display: block;
-  padding: var(--space-xs) var(--space-sm);
-  font-size: 0.9rem;
-  color: var(--gray-dark);
-  transition: background-color 0.2s ease;
-}
-
-.nav-dropdown a:hover {
-  background-color: var(--color-bg);
-  color: var(--color-primary-light);
-}
-
-/* Barra de búsqueda */
-.navbar-search {
-  position: relative;
-  flex: 1;
-  max-width: 300px;
-  margin: 0 var(--space-md);
-}
-
-.search-input {
-  width: 100%;
-  padding: var(--space-xs) var(--space-md) var(--space-xs) var(--space-sm);
-  padding-right: 2.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  font-size: 0.9rem;
-  color: var(--gray-dark);
-  background-color: var(--white);
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: var(--color-primary-light);
-}
-
-.btn-search {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  color: var(--gray-medium);
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.btn-search:hover {
-  color: var(--color-primary-light);
-}
-
-/* Acciones (botones de login/registro o logout) */
-.navbar-actions {
-  display: flex;
-  gap: var(--space-sm);
-  align-items: center;
-}
-
-/* ============================================================
-   5. RESPONSIVIDAD DEL NAVBAR
-   ============================================================ */
-@media (max-width: 1024px) {
-  .navbar-container {
-    flex-wrap: wrap;
-    height: auto;
-    padding: var(--space-sm);
-  }
-
-  .navbar-menu {
-    width: 100%;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    margin: var(--space-sm) 0;
-  }
-
-  .navbar-search {
-    width: 100%;
-    margin: var(--space-sm) 0;
-  }
-
-  .navbar-actions {
-    width: 100%;
-    justify-content: center;
-    margin-bottom: var(--space-sm);
-  }
-}
-
-/* ============================================================
-   6. CATÁLOGO PÚBLICO
-   ============================================================ */
-.catalog-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--space-lg) 0;
-}
-
-.catalog-title {
-  font-size: 2rem;
-  color: var(--gray-dark);
-  margin-bottom: var(--space-lg);
-  text-align: center;
-}
-
-.no-products {
-  text-align: center;
-  font-size: 1.125rem;
-  color: var(--gray-medium);
-}
-
-.product-grid {
+.grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   gap: var(--space-lg);
 }
 
-/* ============================================================
-   7. PRODUCT CARD
-   ============================================================ */
+/* 5. Botones */
+.btn {
+  display: inline-block;
+  font-family: var(--font-base);
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width) solid var(--color-primary);
+  border-radius: var(--border-radius);
+  background-color: var(--color-primary);
+  color: var(--color-on-primary);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  text-align: center;
+}
+.btn:hover {
+  background-color: var(--color-primary-light);
+}
+.btn:active {
+  transform: scale(0.98);
+}
+.btn-secondary {
+  background-color: var(--color-surface);
+  color: var(--color-primary);
+}
+.btn-secondary:hover {
+  background-color: var(--color-border);
+}
+
+/* 6. Formularios */
+input, select, textarea, button {
+  font-family: var(--font-base);
+}
+input, select, textarea {
+  width: 100%;
+  padding: var(--space-sm) var(--space-md);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius);
+  font-size: 0.9rem;
+  margin-bottom: var(--space-md);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 3px rgba(230,126,34,0.2);
+}
+
+/* 7. Tarjetas de producto */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
 .product-card {
-  background-color: var(--white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  background: var(--color-surface);
+  border: var(--border-width) solid var(--color-border);
+  border-radius: var(--border-radius);
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  position: relative;
+  transition: box-shadow 0.2s, transform 0.2s;
 }
-
 .product-card:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
   transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
-
-.badge {
-  background-color: var(--color-primary-light);
-  color: var(--white);
-  padding: var(--space-xs) var(--space-sm);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  position: absolute;
-  top: var(--space-sm);
-  left: var(--space-sm);
-  border-radius: var(--radius-sm);
-}
-
-.image-container {
+.product-card img {
   width: 100%;
-  padding-top: 75%; /* Aspect ratio 4:3 */
-  position: relative;
-  background-color: var(--gray-light);
+  height: auto;
+  object-fit: cover;
 }
-
-.image-container img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 80%;
-  max-height: 80%;
-  object-fit: contain;
-}
-
-.product-name {
-  font-size: 1rem;
-  font-weight: 500;
-  color: var(--gray-dark);
-  margin: var(--space-md) var(--space-sm) 0;
-  flex-grow: 1;
-}
-
-.product-sku {
-  font-size: 0.875rem;
-  color: var(--gray-medium);
-  margin: var(--space-xs) var(--space-sm);
-}
-
-.product-price {
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: var(--color-primary-light);
-  margin: var(--space-xs) var(--space-sm);
-}
-
-.btn-add-cart {
-  margin: var(--space-md) var(--space-sm) var(--space-sm);
-  padding: var(--space-sm);
-  background-color: var(--color-primary-light);
-  color: var(--white);
-  border: none;
-  border-radius: var(--radius-sm);
-  font-size: 0.9375rem;
-  font-weight: 500;
-  transition: background-color 0.2s ease;
-}
-
-.btn-add-cart:hover {
-  background-color: var(--color-primary);
-}
-
-/* ============================================================
-   8. B2B CATÁLOGO
-   ============================================================ */
-.b2b-container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: var(--space-lg) 0;
-  text-align: center;
-}
-
-.b2b-title {
-  font-size: 2rem;
-  color: var(--gray-dark);
-  margin-bottom: var(--space-md);
-}
-
-.info-box {
-  margin-top: var(--space-md);
-  padding: var(--space-lg);
-  background-color: #e0f2fe; /* Azul muy suave */
-  border: 1px solid #bae6fd;
-  border-radius: var(--radius-md);
-  color: #1e3a8a; /* Azul más oscuro */
-}
-
-/* ============================================================
-   9. CARRITO
-   ============================================================ */
-.cart-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: var(--space-lg) 0;
-}
-
-.cart-list {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: var(--space-md);
-}
-
-.cart-list th,
-.cart-list td {
-  padding: var(--space-sm) var(--space-xs);
-  border: 1px solid var(--color-border);
-  text-align: left;
-}
-
-.cart-summary {
+.product-card-content {
+  padding: var(--space-md);
+  flex: 1;
   display: flex;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: column;
+}
+.product-card h3 {
+  font-size: 1.125rem;
+  margin-bottom: var(--space-sm);
+  color: var(--color-primary);
+}
+.product-card .sku {
+  font-family: monospace;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  margin-bottom: var(--space-sm);
+}
+.product-card .price {
   font-size: 1.25rem;
-  font-weight: 600;
-  margin-bottom: var(--space-md);
-}
-
-.cart-summary span {
-  margin-right: var(--space-sm);
-}
-
-/* ============================================================
-   10. FORMULARIOS (LOGIN / REGISTER)
-   ============================================================ */
-.card {
-  max-width: 420px;
-  margin: 2rem auto;
-  padding: 2rem;
-  background-color: var(--white);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-lg);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
-}
-
-.form-title {
-  text-align: center;
-  margin-bottom: var(--space-md);
-  font-size: 1.75rem;
-  color: var(--color-primary);
-  font-weight: 600;
-}
-
-.form-field {
-  margin-bottom: var(--space-md);
-}
-
-.form-field label {
-  display: block;
-  font-weight: 500;
-  margin-bottom: var(--space-xs);
-  color: var(--gray-dark);
-}
-
-.form-field input,
-.form-field select {
-  width: 100%;
-  padding: var(--space-sm);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  font-size: 1rem;
-  color: var(--gray-dark);
-  background-color: var(--gray-light);
-  transition: border-color 0.2s ease;
-}
-
-.form-field input:focus,
-.form-field select:focus {
-  outline: none;
-  border-color: var(--color-primary-light);
-}
-
-/* Campos de password con “ojo” */
-.password-field .password-wrapper {
-  position: relative;
-}
-
-.password-wrapper input {
-  padding-right: 2.5rem;
-}
-
-.toggle-visibility {
-  position: absolute;
-  right: 0.5rem;
-  top: 50%;
-  transform: translateY(-50%);
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--gray-medium);
-  padding: 0;
-  display: flex;
-  align-items: center;
-}
-
-.toggle-visibility:hover {
-  color: var(--gray-dark);
-}
-
-.error {
+  font-weight: bold;
   color: var(--color-accent);
-  font-size: 0.875rem;
-  margin-top: var(--space-xs);
-}
-
-.error.general {
-  text-align: center;
   margin-bottom: var(--space-md);
 }
-
-.success {
-  background-color: #d1fae5; /* Verde suave */
-  color: #065f46;            /* Verde oscuro */
-  border: 1px solid #10b981;
-  border-radius: var(--radius-sm);
-  padding: var(--space-sm);
-  margin-bottom: var(--space-md);
-  text-align: center;
-  font-weight: 500;
+.product-card .btn-add {
+  margin-top: auto;
 }
 
-.form-submit {
-  width: 100%;
-  background-color: var(--color-primary-light);
-  color: var(--white);
-  padding: var(--space-sm);
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 1.125rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.2s ease;
-}
-
-.form-submit:hover {
-  background-color: var(--color-primary);
-}
-
-.small-text {
-  text-align: center;
-  margin-top: var(--space-md);
-  font-size: 0.9rem;
-  color: var(--gray-medium);
-}
-
-.small-text .link {
-  color: var(--color-primary-light);
-  cursor: pointer;
-  text-decoration: underline;
-}
-
-.small-text .link:hover {
-  color: var(--color-primary);
-}
-
-/* ============================================================
-   11. FOOTER
-   ============================================================ */
+/* 8. Footer */
 .footer {
-  background-color: var(--gray-dark);
-  color: var(--white);
-  text-align: center;
-  padding: var(--space-md) 0;
+  background: var(--color-primary);
+  color: var(--on-primary);
+  padding: var(--space-lg) 0;
+  margin-top: var(--space-xl);
+}
+.footer .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-lg);
+}
+.footer .footer-col {
+  flex: 1 1 200px;
+}
+.footer h4 {
+  margin-bottom: var(--space-md);
+  color: var(--color-accent);
+}
+.footer a {
+  display: block;
+  color: var(--on-primary);
+  margin-bottom: var(--space-xs);
+  font-size: 0.9rem;
 }
 
-.footer-container p {
-  font-size: 0.9rem;
+/* 9. Media queries */
+@media (max-width: var(--bp-md)) {
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: var(--bp-sm)) {
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+  .footer .container {
+    flex-direction: column;
+    align-items: center;
+  }
 }

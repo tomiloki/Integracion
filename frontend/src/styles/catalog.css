@@ -1,26 +1,103 @@
-/* catalog.css */
+/* src/styles/catalog.css */
 
+/* ====================================
+   1. Contenedor y Título
+   ==================================== */
 .catalog-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: var(--space-lg) 0;
+  padding: 1rem;
 }
-
 .catalog-title {
+  font-family: var(--ff-heading);
   font-size: 2rem;
-  color: var(--color-secondary);
-  margin-bottom: var(--space-lg);
+  color: var(--color-primary);
   text-align: center;
+  margin-bottom: 0.75rem; /* menos espacio */
+  
 }
 
-.no-products {
-  text-align: center;
-  font-size: 1.125rem;
-  color: #6b7280;
+/* Limitar el nombre de producto con elipsis */
+.product-card .product-name {
+  display: block;              /* asegurar que text-overflow funcione */
+  white-space: nowrap;         /* una sola línea */
+  overflow: hidden;            /* recortar el exceso */
+  text-overflow: ellipsis;     /* mostrar “…” al final */
 }
 
+/* Opcional: si tu .product-name vive dentro de un contenedor flexible, fíjalo */
+.product-card .card-content {
+  /* por ejemplo una altura máxima para el título */
+  max-height: 3rem;            /* ajusta a tu gusto (2 líneas serían ~3rem) */
+}
+
+
+/* ====================================
+   2. Barra de Filtros (Categorías)
+   ==================================== */
+.filter-bar {
+  background-color: rgba(37, 99, 235, 0.1); /* azul-600 10% */
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  overflow-x: auto;
+}
+.cat-scroll {
+  display: flex;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+.cat-scroll li {
+  flex: 0 0 auto;
+  list-style: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-family: var(--ff-body);
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+.cat-scroll li.active,
+.cat-scroll li:hover {
+  background: var(--accent);
+  color: var(--surface);
+}
+.cat-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+.cat-scroll::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.15);
+  border-radius: 3px;
+}
+
+/* ====================================
+   3. Grid de Productos
+   ==================================== */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: var(--space-lg);
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+/* ====================================
+   4. Mensaje “Sin Productos”
+   ==================================== */
+.no-products {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 1.125rem;
+  margin: 2rem 0;
+}
+
+/* ====================================
+   5. Responsive
+   ==================================== */
+@media (max-width: var(--bp-md)) {
+  .catalog-title { font-size: 1.75rem; }
+  .filter-bar { margin-bottom: 0.75rem; }
+  .product-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
 }

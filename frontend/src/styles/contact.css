@@ -1,0 +1,63 @@
+/* src/styles/contact.css */
+
+.contact-page {
+  background: var(--color-bg-light);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+.contact-hero {
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  color: var(--surface);
+  padding: var(--space-lg) 0;
+  text-align: center;
+}
+.contact-hero h1 {
+  font-family: var(--ff-heading);
+  font-size: 2.5rem;
+}
+
+.contact-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+  gap: var(--space-lg);
+  max-width: 900px;
+  margin: calc(var(--space-lg) * 0.5) auto;
+  padding: 0 var(--space-md);
+}
+.info-card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.info-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.info-icon {
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+}
+.info-card h3 {
+  font-family: var(--ff-heading);
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+.info-card p {
+  font-family: var(--ff-body);
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* Responsive */
+@media (max-width: var(--bp-md)) {
+  .contact-hero h1 {
+    font-size: 2rem;
+  }
+  .contact-info {
+    grid-template-columns: 1fr;
+  }
+}

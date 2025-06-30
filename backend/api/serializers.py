@@ -3,8 +3,8 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-
-from .models import Category, Product, User, CartItem
+from decimal import Decimal, ROUND_HALF_UP
+from .models import Category, Product, User, CartItem, Order, OrderItem
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -18,7 +18,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'sku', 'brand', 'internal_code', 'name', 'category', 'price', 'created_at']
+        fields = ['id', 'sku', 'brand', 'internal_code', 'name', 'category', 'price', 'created_at', 'quantity', 'image', 'description', 'author']
+        read_only_fields = ['id', 'created_at']
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -52,6 +53,10 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
         token['role'] = user.role
         return token
 
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'role']
 
 # ===============================
 #  Serializer para CartItem
@@ -81,9 +86,40 @@ class CartItemSerializer(serializers.ModelSerializer):
         read_only_fields = ['id', 'product', 'subtotal']
 
     def get_subtotal(self, obj):
-        return obj.quantity * obj.product.price
+         """
+         Cantidad × precio, cuantizado a entero (CLP) para evitar decimales raros.
+         """
+         return (Decimal(obj.quantity) * obj.product.price)\
+             .quantize(Decimal('1.'), rounding=ROUND_HALF_UP)
 
     def validate_quantity(self, value):
         if value < 1:
             raise serializers.ValidationError("La cantidad debe ser al menos 1.")
         return value
+
+class OrderItemSerializer(serializers.ModelSerializer):
+    product = ProductSerializer(read_only=True)
+    price = serializers.SerializerMethodField()
+
+    class Meta:
+        model = OrderItem
+        fields = ['product', 'quantity', 'price']
+
+    def get_price(self, obj):
+        return float(obj.price)
+
+# serializers.py
+
+class OrderSerializer(serializers.ModelSerializer):
+    items = OrderItemSerializer(many=True, read_only=True)
+    total = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Order
+        fields = ['id', 'created_at', 'status', 'items', 'total']
+        read_only_fields = fields
+
+    def get_total(self, obj):
+        # Antes: sum(item.quantity * item.price for item in obj.items.all())
+        total = sum(item.quantity * item.price for item in obj.items.all())
+        return float(total)   # <-- aquí coercion a float (o int)

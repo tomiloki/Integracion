@@ -1,5 +1,3 @@
-# backend/api/urls.py
-
 from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
@@ -7,14 +5,19 @@ from rest_framework_simplejwt.views import (
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 
+from .webpay_views import WebpayInitView, WebpayCommitView
 from .views import (
     ProductViewSet,
     RegisterView,
     PaymentView,
     CatalogView,
-    get_inventory,
-    CartItemListCreateView,   # noqa: F401
-    CartItemDetailView,       # noqa: F401
+    CartItemListCreateView,
+    CartItemDetailView,
+    CreateOrderView,
+    CategoryListAPIView,
+    OrderDetailView,
+    UserProfileView,
+    UserOrdersListView,
 )
 
 router = DefaultRouter()
@@ -30,22 +33,34 @@ urlpatterns = [
     # Registro de usuario
     path('register/', RegisterView.as_view(), name='register'),
 
-    # Pagos (POST /api/payments/)
-    path('payments/', PaymentView.as_view(), name='payment'),
-
-    # Stock de inventario por producto
-    path('inventory/<int:product_id>/', get_inventory, name='inventory'),
-
     # Catálogo completo de productos
     path('catalog/', CatalogView.as_view(), name='catalog'),
 
-    # —————————————————————
-    # RUTAS DEL CARRITO (añadidas):
-    # —————————————————————
-
-    # Listar y crear ítems en el carrito del usuario autenticado
+    # Carrito
     path('cart/', CartItemListCreateView.as_view(), name='cart-list-create'),
-
-    # Detalle, actualización (cantidad) y eliminación de un ítem de carrito
     path('cart/<int:pk>/', CartItemDetailView.as_view(), name='cart-detail'),
+
+    # ** NUEVAS RUTAS: **
+    # Crear pedido a partir del carrito
+    path('orders/', CreateOrderView.as_view(), name='create-order'),
+
+    # Recuperar detalle del pedido
+    path('orders/<int:pk>/', OrderDetailView.as_view(), name='order-detail'),
+
+    # Listar mis pedidos (GET) /api/orders/user/
+    path('orders/user/', UserOrdersListView.as_view(), name='user-orders'),
+
+    # Procesar pago
+    path('payments/', PaymentView.as_view(), name='payment'),
+    
+    # Inicia Webpay (POST { order_id })
+    path('webpay/init/',   WebpayInitView.as_view(),   name='webpay-init'),
+    path('webpay/commit/', WebpayCommitView.as_view(), name='webpay-commit'),
+
+    # Categorías
+    path('categories/', CategoryListAPIView.as_view(), name='category-list'),
+
+    # Perfil Usuario
+    path('users/me/', UserProfileView.as_view(), name='user-profile'),
+
 ]

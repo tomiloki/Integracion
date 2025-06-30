@@ -16,7 +16,6 @@ from datetime import timedelta
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
@@ -28,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
 
 # Application definition
 
@@ -112,12 +113,17 @@ AUTH_USER_MODEL = 'api.User'
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-cl'
 
-TIME_ZONE = 'UTC'
+LANGUAGES = [
+    ('es', 'Español'),
+    ('en', 'Inglés'),
+]
+
+TIME_ZONE = 'America/Santiago'
 
 USE_I18N = True
-
+USE_L10N = True
 USE_TZ = True
 
 
@@ -145,3 +151,14 @@ SIMPLE_JWT = {
     'USER_ID_CLAIM': 'user_id',
     'TOKEN_OBTAIN_SERIALIZER': 'api.serializers.CustomTokenObtainPairSerializer',
 }
+
+# Transbank Webpay Plus – modo Integración (sandbox)
+
+# Host de integración
+WEBPAY_HOST   = "https://webpay3gint.transbank.cl"
+
+# Credenciales sandbox
+WEBPAY_COMMERCE_CODE = "597055555532"  
+WEBPAY_API_KEY       = "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C"
+# Para construir tu return_url apuntando al front
+FRONTEND_URL         = "http://localhost:3000"

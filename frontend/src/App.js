@@ -1,64 +1,94 @@
-// frontend/src/App.js
-import { BrowserRouter, Routes, Route, Navigate, Link, useNavigate } from 'react-router-dom';
-import { parseJwt } from './utils/jwt';
-import { useState, useEffect } from 'react';
-import { Search } from 'lucide-react';
+// src/App.js
+import React from 'react';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+import { AuthProvider, useAuth } from './context/authContext';
 import Navbar from './components/Navbar';
+import Footer from './components/footer';
+
+import Home from './pages/home';
 import Catalog from './pages/catalog';
 import B2BCatalog from './pages/b2bCatalog';
+import ProductDetail from './pages/productDetail';
 import Cart from './pages/cart';
+import OrderSummary from './pages/orderSummary';
 import Login from './pages/login';
 import Register from './pages/register';
+import About from './pages/about';
+import Contact from './pages/contact';
+import Profile from './pages/profile';
+import CheckoutSuccess from './components/checkoutSuccess';
 
-function Footer() {
-  return (
-    <footer className="footer">
-      <div className="footer-container">
-        <p>© {new Date().getFullYear()} AutoParts. Todos los derechos reservados.</p>
-      </div>
-    </footer>
-  );
-}
-
+// Ruta protegida según rol
 function ProtectedRoute({ allowedRoles, children }) {
-  const token = localStorage.getItem('access');
-  if (!token) return <Navigate to="/login" replace />;
-  const payload = parseJwt(token);
-  const role = payload?.role || null;
-  if (!allowedRoles.includes(role)) return <Navigate to="/" replace />;
+  const { isLoggedIn, role } = useAuth();
+  if (!isLoggedIn) {
+    return <Navigate to="/login" replace />;
+  }
+  if (!allowedRoles.includes(role)) {
+    return <Navigate to="/" replace />;
+  }
   return children;
 }
 
 export default function App() {
   return (
-    <BrowserRouter>
-      <Navbar />
-      <main className="main-content">
-        <Routes>
-          <Route path="/" element={<Catalog />} />
-          <Route
-            path="/catalog/b2b"
-            element={
-              <ProtectedRoute allowedRoles={['distributor', 'admin']}>
-                <B2BCatalog />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/cart"
-            element={
-              <ProtectedRoute allowedRoles={['customer','distributor','admin']}>
-                <Cart />
-              </ProtectedRoute>
-            }
-          />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-      <Footer />
-    </BrowserRouter>
+    <AuthProvider>
+      <BrowserRouter>
+        <Navbar />
+
+        {/* Toasts globales */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          pauseOnHover
+        />
+
+        <main className="main-content">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/catalog" element={<Catalog />} />
+            <Route
+              path="/catalog/b2b"
+              element={
+                <ProtectedRoute allowedRoles={[ 'distributor', 'admin' ]}>
+                  <B2BCatalog />
+                </ProtectedRoute>
+              }
+            />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            <Route
+              path="/cart"
+              element={
+                <ProtectedRoute allowedRoles={[ 'customer', 'distributor', 'admin' ]}>
+                  <Cart />
+                </ProtectedRoute>
+              }
+            />
+
+            <Route path="/profile" element={<Profile />} />
+
+            {/* Resumen de pedido */}
+            <Route path="/order/:id" element={<OrderSummary />} />
+
+            {/* Página pública de éxito de pago */}
+            <Route path="/checkout/success" element={<CheckoutSuccess />} />
+
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </main>
+
+        <Footer />
+      </BrowserRouter>
+    </AuthProvider>
   );
 }

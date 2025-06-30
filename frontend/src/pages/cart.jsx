@@ -1,176 +1,177 @@
-// frontend/src/pages/cart.jsx
-
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
-  getCart,
+  getCartItems,
   updateCartItem,
   removeCartItem,
 } from '../services/cartService';
+import { createOrder } from '../services/orderService';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import '../styles/cart.css';
 
 export default function Cart() {
-  const [cartItems, setCartItems] = useState([]);
+  const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState('');
+  const [processing, setProcessing] = useState(false);
+  const navigate = useNavigate();
 
-  // 1. Al montar: obtener el carrito
   useEffect(() => {
-    async function fetchCart() {
-      try {
-        setLoading(true);
-        const data = await getCart();
-        setCartItems(data);
-      } catch (err) {
-        setError('No se pudo cargar el carrito.');
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchCart();
+    let mounted = true;
+    getCartItems()
+      .then(data => mounted && setItems(data))
+      .catch(() => mounted && setError('No se pudo cargar el carrito.'))
+      .finally(() => mounted && setLoading(false));
+    return () => void (mounted = false);
   }, []);
 
-  // 2. Calcular total general
-  const getTotal = () => {
-    return cartItems.reduce(
-      (sum, item) => sum + Number(item.subtotal),
-      0
-    );
-  };
-
-  // 3. Al cambiar cantidad de un ítem
-  const handleQuantityChange = async (cartItemId, newQty) => {
-    if (newQty < 1) return; // No permitimos < 1
+  const handleQuantityChange = async (id, qty) => {
+    const prev = [...items];
+    setItems(items.map(i => i.id === id ? { ...i, quantity: qty } : i));
     try {
-      const updated = await updateCartItem(cartItemId, newQty);
-      setCartItems((prev) =>
-        prev.map((i) =>
-          i.id === cartItemId
-            ? {
-                ...i,
-                quantity: updated.quantity,
-                subtotal: updated.subtotal,
-              }
-            : i
-        )
-      );
-    } catch (err) {
-      alert('No se pudo actualizar la cantidad.');
-      console.error(err);
+      await updateCartItem(id, qty);
+    } catch (e) {
+      setItems(prev);
+      toast.error(e.message || 'Error al actualizar');
     }
   };
 
-  // 4. Al eliminar un ítem
-  const handleRemove = async (cartItemId) => {
-    if (!window.confirm('¿Eliminar este producto del carrito?')) return;
+  const handleRemove = async id => {
+    const prev = [...items];
+    setItems(items.filter(i => i.id !== id));
     try {
-      await removeCartItem(cartItemId);
-      setCartItems((prev) => prev.filter((i) => i.id !== cartItemId));
-    } catch (err) {
-      alert('No se pudo eliminar el ítem del carrito.');
-      console.error(err);
+      await removeCartItem(id);
+      toast.success('Artículo eliminado');
+    } catch (e) {
+      setItems(prev);
+      toast.error(e.message || 'Error al eliminar');
     }
   };
 
-  if (loading) {
-    return (
-      <div className="d-flex-center" style={{ padding: '4rem' }}>
-        <div className="btn btn-primary">Cargando carrito...</div>
-      </div>
-    );
+  const handleCheckout = async () => {
+    setProcessing(true);
+    try {
+      const order = await createOrder();
+      navigate(`/order/${order.id}`, { state: { order } });
+    } catch (e) {
+      toast.error(e.message || 'Error al crear orden');
+    } finally {
+      setProcessing(false);
+    }
+  };
+
+  if (loading) return <div className="center-container">Cargando carrito…</div>;
+  if (error)   return <div className="center-container error">{error}</div>;
+  if (items.length === 0) {
+    return <div className="center-container">Tu carrito está vacío.</div>;
   }
 
-  if (error) {
-    return (
-      <div className="d-flex-center" style={{ padding: '4rem', color: 'red' }}>
-        {error}
-      </div>
-    );
-  }
-
-  // 5. Si no hay ítems
-  if (cartItems.length === 0) {
-    return (
-      <div className="cart-container">
-        <h2>Tu carrito está vacío</h2>
-        <p className="m-around">Agrega productos al carrito desde el catálogo.</p>
-      </div>
-    );
-  }
+    // ──────────────────────────────────────────────────────────────
+  // Cálculo de IVA
+  const subtotal     = items.reduce((sum, i) => sum + i.quantity * i.product.price, 0);
+  const taxRate      = 0.19;
+  const iva          = subtotal * taxRate;
+  const total = subtotal + iva;
+  // ──────────────────────────────────────────────────────────────
 
   return (
-    <div className="cart-container">
-      <h2>Carrito de Compras</h2>
+    <main className="cart-page">
+      <ToastContainer position="top-right" autoClose={3000} />
+      <h2 className="cart-title">Tu Carrito</h2>
 
-      <div className="overflow-x-auto">
-        <table className="cart-list">
-          <thead>
-            <tr>
-              <th>Producto</th>
-              <th>Precio Unitario</th>
-              <th>Cantidad</th>
-              <th>Subtotal</th>
-              <th>Acción</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map((item) => (
-              <tr key={item.id}>
-                <td>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <span>{item.product.name}</span>
-                  </div>
-                </td>
-                <td>
-                  ${Number(item.product.price).toFixed(2)}
-                </td>
-                <td>
+      <ul className="cart-list">
+        {items.map(item => {
+          const { id, quantity, product } = item;
+          const subtotal = quantity * product.price;
+          return (
+            <li key={id} className="cart-item">
+              <div
+                className="item-info"
+                onClick={() => navigate(`/product/${product.id}`)}
+              >
+                <img
+                  className="item-thumb"
+                  src={product.image || '/placeholder.png'}
+                  alt={product.name}
+                />
+                <div className="item-meta">
+                  <p className="item-name">{product.name}</p>
+                  <p className="item-price">
+                    ${product.price.toLocaleString('es-CL')}
+                  </p>
+                </div>
+              </div>
+
+              <div className="item-actions">
+                <div className="qty-control">
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(id, Math.max(1, quantity - 1))
+                    }
+                    disabled={quantity <= 1}
+                  >
+                    –  
+                  </button>
                   <input
                     type="number"
                     min="1"
-                    value={item.quantity}
-                    style={{ width: '3rem', textAlign: 'center' }}
-                    onChange={(e) =>
-                      handleQuantityChange(item.id, parseInt(e.target.value, 10) || 1)
+                    max={product.quantity}
+                    value={quantity}
+                    onChange={e =>
+                      handleQuantityChange(
+                        id,
+                        Math.min(
+                          product.quantity,
+                          Math.max(1, Number(e.target.value))
+                        )
+                      )
                     }
                   />
-                </td>
-                <td>
-                  ${Number(item.subtotal).toFixed(2)}
-                </td>
-                <td>
                   <button
-                    style={{
-                      backgroundColor: 'transparent',
-                      border: 'none',
-                      color: 'var(--color-accent)',
-                      cursor: 'pointer',
-                    }}
-                    onClick={() => handleRemove(item.id)}
+                    onClick={() =>
+                      handleQuantityChange(id, quantity + 1)
+                    }
+                    disabled={quantity >= product.quantity}
                   >
-                    Eliminar
+                    +
                   </button>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+                </div>
+                <p className="item-subtotal">
+                  ${subtotal.toLocaleString('es-CL')}
+                </p>
+                <button
+                  className="btn-remove"
+                  onClick={() => handleRemove(id)}
+                  aria-label="Eliminar"
+                >
+                  🗑️
+                </button>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
 
       <div className="cart-summary">
-        <span>Total:</span>
-        <span style={{ color: 'var(--color-primary-dark)', fontSize: '1.25rem' }}>
-          ${getTotal().toFixed(2)}
-        </span>
+        <p className="summary-subtotal">
+          Subtotal: ${subtotal.toLocaleString('es-CL')} CLP
+        </p>
+        <p className="summary-total">
+          Total: (+ IVA) ${total.toLocaleString('es-CL')} CLP
+        </p>
       </div>
 
-      <div style={{ marginTop: '2rem', textAlign: 'right' }}>
+
+      <div className="checkout-actions">
         <button
-          className="btn btn-primary"
-          onClick={() => alert('Aquí iría el flujo de pago (Checkout)')}
+          className="btn-primary checkout-btn"
+          onClick={handleCheckout}
+          disabled={processing}
         >
-          Proceder a Checkout
+          {processing ? 'Procesando…' : 'Pagar Pedido'}
         </button>
       </div>
-    </div>
+    </main>
   );
 }

@@ -1,0 +1,186 @@
+/* src/styles/home.css */
+
+/* Variables globales (defínelas en app.css si no lo hiciste): */
+/*
+:root {
+  --bg-start: #1C2331;
+  --bg-end:   #2C3E50;
+  --surface:  #FFFFFF;
+  --accent:   #E67E22;
+  --accent-light: #F39C12;
+  --text-primary: #34495E;
+  --text-secondary: #7F8C8D;
+  --border-color: #E2E8F0;
+
+  --ff-heading: 'Poppins', sans-serif;
+  --ff-body:    'Inter', sans-serif;
+
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+
+  --radius-md: 1rem;
+  --bp-md: 768px;
+}
+*/
+
+/* 1. Contenedor principal */
+.home-page {
+  background: var(--bg-light);
+  color: var(--text-primary);
+}
+
+/* 2. Hero Section */
+.home-hero {
+  background: linear-gradient(135deg, var(--bg-start), var(--bg-end));
+  color: var(--surface);
+  padding: var(--space-lg) 0;
+  text-align: center;
+}
+.home-hero .container {
+  max-width: 800px;
+  margin: 0 auto;
+}
+.home-hero h1 {
+  font-family: var(--ff-heading);
+  font-size: 2.75rem;
+  margin-bottom: var(--space-sm);
+}
+.home-hero p {
+  font-family: var(--ff-body);
+  font-size: 1.125rem;
+  margin-bottom: var(--space-md);
+}
+.btn-hero {
+  font-family: var(--ff-body);
+  padding: var(--space-sm) var(--space-md);
+  background: var(--accent);
+  color: var(--surface);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s ease, transform 0.1s ease;
+}
+.btn-hero:hover {
+  background: var(--accent-light);
+}
+.btn-hero:active {
+  transform: scale(0.98);
+}
+
+/* 3. Features Section */
+.home-features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px,1fr));
+  gap: var(--space-lg);
+  max-width: 1000px;
+  margin: var(--space-lg) auto;
+  padding: 0 var(--space-md);
+}
+.feature-card {
+  background: var(--surface);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+.feature-icon {
+  color: var(--accent);
+  margin-bottom: var(--space-sm);
+}
+.feature-card h3 {
+  font-family: var(--ff-heading);
+  font-size: 1.25rem;
+  margin-bottom: var(--space-xs);
+  color: var(--text-primary);
+}
+.feature-card p {
+  font-family: var(--ff-body);
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+/* 4. Wholesale Inquiry Form */
+.home-form {
+  background: var(--surface);
+  max-width: 700px;
+  margin: var(--space-lg) auto var(--space-xl);
+  padding: var(--space-lg) var(--space-md);
+  border-radius: var(--radius-md);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+.home-form h2 {
+  font-family: var(--ff-heading);
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: var(--space-sm);
+  color: var(--text-primary);
+}
+.home-form p {
+  font-family: var(--ff-body);
+  font-size: 1rem;
+  text-align: center;
+  margin-bottom: var(--space-md);
+  color: var(--text-secondary);
+}
+.form-distributor .form-group {
+  margin-bottom: var(--space-md);
+}
+.form-distributor label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-family: var(--ff-body);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+.form-distributor input {
+  width: 100%;
+  padding: var(--space-sm);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  font-family: var(--ff-body);
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-distributor input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(230,126,34,0.2);
+}
+.btn-distributor {
+  display: block;
+  width: 100%;
+  padding: var(--space-sm);
+  background: var(--accent);
+  color: var(--surface);
+  font-family: var(--ff-body);
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.btn-distributor:hover {
+  background: var(--accent-light);
+}
+
+/* 5. Responsive */
+@media (max-width: var(--bp-md)) {
+  .home-hero h1 {
+    font-size: 2.25rem;
+  }
+  .home-features {
+    gap: var(--space-md);
+  }
+  .home-form {
+    padding: var(--space-md);
+  }
+}
