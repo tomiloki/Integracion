@@ -93,11 +93,15 @@ jobs:
           cp backend/.env.example backend/.env
           cp frontend/.env.example frontend/.env
       - name: Build and start stack
+        env:
+          POSTGRES_HOST_PORT: "55432"
+          BACKEND_HOST_PORT: "58000"
+          FRONTEND_HOST_PORT: "53000"
         run: docker compose up -d --build
       - name: Wait for backend health
         run: |
           for i in {1..30}; do
-            if curl -fsS http://localhost:8000/api/health/ > /tmp/health.json; then
+            if curl -fsS http://localhost:58000/api/health/ > /tmp/health.json; then
               cat /tmp/health.json
               exit 0
             fi
@@ -109,7 +113,7 @@ jobs:
       - name: Wait for frontend readiness
         run: |
           for i in {1..36}; do
-            if curl -fsS --max-time 10 http://localhost:3000 > /dev/null; then
+            if curl -fsS --max-time 10 http://localhost:53000 > /dev/null; then
               echo "Frontend is ready"
               exit 0
             fi

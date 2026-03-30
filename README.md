@@ -21,6 +21,10 @@ Proyecto full-stack de e-commerce automotriz orientado a portafolio profesional.
    - `copy frontend\.env.example frontend\.env`
 2. Configurar secretos del proyecto (especialmente `DJANGO_SECRET_KEY`).
    - Webpay queda listo por defecto con credenciales publicas de integracion (sandbox).
+   - Opcional: ajustar puertos host via `.env`:
+     - `POSTGRES_HOST_PORT` (default `5432`)
+     - `BACKEND_HOST_PORT` (default `8000`)
+     - `FRONTEND_HOST_PORT` (default `3000`)
 3. Levantar stack:
 ```bash
 docker compose up --build
