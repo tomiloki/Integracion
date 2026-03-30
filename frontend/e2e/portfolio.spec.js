@@ -33,10 +33,18 @@ async function addDemoProductToCart({ page, request }) {
   const token = await page.evaluate((accessKey) => localStorage.getItem(accessKey), ACCESS_KEY);
   expect(token).toBeTruthy();
 
-  const productsResponse = await request.get(`${API_BASE_URL}/products/?q=PORT-DEMO-001`);
-  expect(productsResponse.ok()).toBeTruthy();
-  const productsPayload = await productsResponse.json();
-  const products = productsPayload.results || [];
+  const preferredResponse = await request.get(`${API_BASE_URL}/products/?q=PORT-DEMO-001`);
+  expect(preferredResponse.ok()).toBeTruthy();
+  const preferredPayload = await preferredResponse.json();
+  let products = preferredPayload.results || [];
+
+  if (products.length === 0) {
+    const fallbackResponse = await request.get(`${API_BASE_URL}/products/`);
+    expect(fallbackResponse.ok()).toBeTruthy();
+    const fallbackPayload = await fallbackResponse.json();
+    products = fallbackPayload.results || [];
+  }
+
   expect(products.length).toBeGreaterThan(0);
 
   const productId = products[0].id;

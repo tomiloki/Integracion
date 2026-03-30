@@ -25,6 +25,8 @@ Proyecto full-stack de e-commerce automotriz orientado a portafolio profesional.
      - `POSTGRES_HOST_PORT` (default `5432`)
      - `BACKEND_HOST_PORT` (default `8000`)
      - `FRONTEND_HOST_PORT` (default `3000`)
+   - El stack Docker ejecuta bootstrap demo al iniciar (`BOOTSTRAP_PORTFOLIO=true` por defecto).
+     - Para desactivarlo, define `BOOTSTRAP_PORTFOLIO=false` en el `.env` raiz.
 3. Levantar stack:
 ```bash
 docker compose up --build
