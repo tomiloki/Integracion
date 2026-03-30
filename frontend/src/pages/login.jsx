@@ -53,6 +53,7 @@ export default function Login() {
               id="username"
               name="username"
               type="text"
+              autoComplete="username"
               data-testid="login-username"
               value={form.username}
               onChange={handleChange}
@@ -69,6 +70,7 @@ export default function Login() {
                 id="password"
                 name="password"
                 type={showPassword ? 'text' : 'password'}
+                autoComplete="current-password"
                 data-testid="login-password"
                 value={form.password}
                 onChange={handleChange}

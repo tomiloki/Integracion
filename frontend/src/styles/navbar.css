@@ -259,4 +259,53 @@
   .search {
     width: 100%;
   }
+
+  .menu-link {
+    padding: 0.42rem 0.62rem;
+    font-size: 0.86rem;
+  }
+
+  .act-btn {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.82rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .navbar-inner {
+    row-gap: 0.45rem;
+    padding-block: 0.5rem;
+  }
+
+  .brand {
+    font-size: 1.12rem;
+    letter-spacing: 0.09em;
+  }
+
+  .menu {
+    gap: 0.18rem;
+  }
+
+  .menu-link {
+    padding: 0.38rem 0.55rem;
+    font-size: 0.82rem;
+  }
+
+  .search input {
+    font-size: 0.9rem;
+  }
+
+  .actions {
+    gap: 0.25rem;
+  }
+
+  .act-icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .cart-badge {
+    top: -0.3rem;
+    right: -0.3rem;
+  }
 }

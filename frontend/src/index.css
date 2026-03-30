@@ -258,3 +258,13 @@ textarea:focus-visible {
     padding-bottom: var(--space-6);
   }
 }
+
+@media (max-width: 520px) {
+  .page-shell {
+    width: min(var(--content-max), 100% - 1rem);
+  }
+
+  .state-panel {
+    width: min(640px, 100% - 1rem);
+  }
+}

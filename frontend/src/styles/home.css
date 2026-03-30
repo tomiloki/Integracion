@@ -201,3 +201,25 @@
     width: 100%;
   }
 }
+
+@media (max-width: 520px) {
+  .home-page {
+    gap: 1.35rem;
+  }
+
+  .home-hero {
+    min-height: 62vh;
+    padding: 1.45rem 0;
+    background-position: 56% center;
+  }
+
+  .home-hero-content {
+    width: min(var(--content-max), 100% - 1rem);
+  }
+
+  .feature-item,
+  .proof-grid,
+  .distributor-panel {
+    padding: 0.9rem;
+  }
+}

@@ -1,10 +1,8 @@
 // src/services/orderService.js
 import api from './api';
-import { emitCartUpdated } from '../utils/cartEvents';
 
 export const createOrder = async () => {
   const response = await api.post('/orders/');
-  emitCartUpdated();
   return response.data;
 };
 

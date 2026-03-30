@@ -99,7 +99,7 @@ export default function Cart() {
 
       <header className="cart-header">
         <h1>Carrito de Compra</h1>
-        <p>Revisa cantidades, valida stock y confirma tu orden.</p>
+        <p>Revisa cantidades y continua al pago cuando estes listo.</p>
       </header>
 
       <div className="cart-layout">
@@ -185,7 +185,7 @@ export default function Cart() {
             disabled={processing}
             data-testid="cart-checkout-btn"
           >
-            {processing ? 'Procesando...' : 'Crear Orden'}
+            {processing ? 'Preparando pago...' : 'Ir al pago'}
           </button>
         </aside>
       </div>

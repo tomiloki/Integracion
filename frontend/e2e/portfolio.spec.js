@@ -61,7 +61,7 @@ test('register + login + profile works', async ({ page }) => {
   await expect(page.getByTestId('profile-username')).toContainText(user.username);
 });
 
-test('customer can add to cart and create an order', async ({ page, request }) => {
+test('customer can add to cart, ir al pago y mantener carrito si no paga', async ({ page, request }) => {
   const user = buildUser();
   await registerAndLogin(page, user);
 
@@ -74,6 +74,23 @@ test('customer can add to cart and create an order', async ({ page, request }) =
   await page.getByTestId('cart-checkout-btn').click();
   await expect(page).toHaveURL(/\/order\/\d+/);
   await expect(page.getByTestId('order-total')).toBeVisible();
+
+  await page.goto('/cart');
+  await expect(page.getByTestId('cart-list')).toBeVisible();
+  await expect(page.getByTestId('cart-list').locator('li')).toHaveCount(1);
+});
+
+test('product add updates navbar badge and shows inline feedback', async ({ page }) => {
+  const user = buildUser();
+  await registerAndLogin(page, user);
+
+  await page.goto('/catalog');
+  const addButtons = page.locator('[data-testid^="product-add-btn-"]');
+  await expect(addButtons.first()).toBeVisible();
+  await addButtons.first().click();
+
+  await expect(page.getByTestId('nav-cart-count')).toContainText('1');
+  await expect(page.getByText('Producto agregado al carrito')).toBeVisible();
 });
 
 test('admin route is protected for unauthenticated users', async ({ page }) => {

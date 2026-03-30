@@ -99,6 +99,7 @@ export default function Register() {
               id="username"
               type="text"
               name="username"
+              autoComplete="username"
               data-testid="register-username"
               value={form.username}
               onChange={handleChange}
@@ -115,6 +116,7 @@ export default function Register() {
               id="email"
               type="email"
               name="email"
+              autoComplete="email"
               data-testid="register-email"
               value={form.email}
               onChange={handleChange}
@@ -132,6 +134,7 @@ export default function Register() {
                 id="password"
                 type={showPassword ? 'text' : 'password'}
                 name="password"
+                autoComplete="new-password"
                 data-testid="register-password"
                 value={form.password}
                 onChange={handleChange}
@@ -159,6 +162,7 @@ export default function Register() {
                 id="confirmPassword"
                 type={showConfirm ? 'text' : 'password'}
                 name="confirmPassword"
+                autoComplete="new-password"
                 data-testid="register-confirm-password"
                 value={form.confirmPassword}
                 onChange={handleChange}

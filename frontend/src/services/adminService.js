@@ -34,6 +34,10 @@ export const createAdminCategory = async (payload) => {
   return response.data;
 };
 
+export const deleteAdminCategory = async (id) => {
+  await api.delete(`/admin/categories/${id}/`);
+};
+
 export const getAdminOrders = async (params = {}) => {
   const response = await api.get("/admin/orders/", { params });
   return response.data;
@@ -41,6 +45,16 @@ export const getAdminOrders = async (params = {}) => {
 
 export const updateAdminOrderStatus = async (id, status) => {
   const response = await api.patch(`/admin/orders/${id}/`, { status });
+  return response.data;
+};
+
+export const getAdminPayments = async (params = {}) => {
+  const response = await api.get("/admin/payments/", { params });
+  return response.data;
+};
+
+export const updateAdminPaymentStatus = async (id, status) => {
+  const response = await api.patch(`/admin/payments/${id}/`, { status });
   return response.data;
 };
 

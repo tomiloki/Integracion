@@ -104,6 +104,10 @@
   border-radius: 10px;
   background: rgba(10, 16, 24, 0.85);
   padding: 0.38rem 0.55rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
 }
 
 .table-wrap {
@@ -135,6 +139,35 @@
 
 .table-wrap td select {
   min-width: 120px;
+}
+
+.table-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.btn-mini {
+  font-size: 0.75rem;
+  padding: 0.28rem 0.6rem;
+}
+
+.form-actions-row {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.admin-op-message {
+  margin: 0;
+  border: 1px solid rgba(115, 200, 156, 0.35);
+  border-radius: 10px;
+  background: rgba(57, 185, 130, 0.12);
+  color: #8ef0c1;
+  font-size: 0.86rem;
+  font-weight: 700;
+  padding: 0.55rem 0.7rem;
 }
 
 .admin-skeleton {

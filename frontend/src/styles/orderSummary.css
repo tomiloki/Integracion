@@ -156,6 +156,10 @@
     flex-direction: column;
   }
 
+  .order-status {
+    align-self: flex-start;
+  }
+
   .order-item {
     grid-template-columns: 52px minmax(0, 1fr);
     grid-template-areas:
@@ -178,5 +182,29 @@
 
   .order-item .item-subtotal {
     grid-area: subtotal;
+  }
+
+  .order-actions .btn-primary,
+  .order-actions .btn-secondary,
+  .order-actions .btn-ghost {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .order-header,
+  .order-total,
+  .order-actions {
+    padding-inline: 0.75rem;
+  }
+
+  .order-item {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .item-name {
+    white-space: normal;
+    line-height: 1.2;
   }
 }
