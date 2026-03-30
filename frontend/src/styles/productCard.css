@@ -1,0 +1,136 @@
+.product-card {
+  position: relative;
+  display: grid;
+  gap: 0.42rem;
+  padding: 0.92rem;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(153, 176, 206, 0.2);
+  background: rgba(16, 25, 38, 0.9);
+  box-shadow: var(--shadow-soft);
+  min-width: 0;
+}
+
+.product-card:hover {
+  border-color: rgba(242, 162, 79, 0.45);
+}
+
+.badge {
+  margin: 0;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  border-radius: var(--radius-pill);
+  background: rgba(243, 164, 84, 0.16);
+  color: var(--accent-soft);
+  padding: 0.2rem 0.55rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: rgba(8, 12, 18, 0.72);
+  color: var(--danger);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.1em;
+  pointer-events: none;
+}
+
+.image-container {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(163, 188, 221, 0.14);
+  background: linear-gradient(155deg, #111a26, #1c283a);
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-name {
+  margin: 0.3rem 0 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 600;
+  font-size: 1.14rem;
+  line-height: 1.1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.product-sku,
+.product-stock {
+  margin: 0;
+  color: var(--text-low);
+  font-size: 0.83rem;
+}
+
+.product-price-label {
+  margin: 0.15rem 0 0;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--text-low);
+}
+
+.product-price {
+  margin: 0.1rem 0;
+  color: var(--accent-soft);
+  font-size: 1.12rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+}
+
+.product-stock.in {
+  color: var(--success);
+}
+
+.product-stock.out {
+  color: var(--danger);
+}
+
+.card-actions {
+  margin-top: 0.35rem;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.45rem;
+}
+
+.card-actions .btn-secondary,
+.card-actions .btn-primary {
+  border-radius: 10px;
+  padding-inline: 0.88rem;
+  font-size: 0.88rem;
+}
+
+.cart-feedback {
+  margin: 0.2rem 0 0;
+  font-size: 0.82rem;
+  font-weight: 700;
+  min-height: 1.05rem;
+}
+
+.cart-feedback.success {
+  color: var(--success);
+}
+
+.cart-feedback.error {
+  color: var(--danger);
+}
+
+@media (max-width: 780px) {
+  .card-actions {
+    grid-template-columns: 1fr 1fr;
+  }
+}

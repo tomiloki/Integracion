@@ -1,0 +1,1154 @@
+[
+  {
+    "model": "api.category",
+    "pk": 1,
+    "fields": {
+      "name": "Filtros de aceite"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 2,
+    "fields": {
+      "name": "Filtros de aire"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 3,
+    "fields": {
+      "name": "Bujías"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 4,
+    "fields": {
+      "name": "Correas de distribución"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 5,
+    "fields": {
+      "name": "Pastillas de freno"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 6,
+    "fields": {
+      "name": "Discos de freno"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 7,
+    "fields": {
+      "name": "Amortiguadores"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 8,
+    "fields": {
+      "name": "Rótulas"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 9,
+    "fields": {
+      "name": "Alternadores"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 10,
+    "fields": {
+      "name": "Baterías"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 11,
+    "fields": {
+      "name": "Luces y faros"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 12,
+    "fields": {
+      "name": "Sensores y fusibles"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 13,
+    "fields": {
+      "name": "Alarmas"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 14,
+    "fields": {
+      "name": "Cinturones de seguridad"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 15,
+    "fields": {
+      "name": "Cubre asientos"
+    }
+  },
+  {
+    "model": "api.category",
+    "pk": 16,
+    "fields": {
+      "name": "Kits de emergencia"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 1,
+    "fields": {
+      "sku": "AP-00001",
+      "brand": "Bosch",
+      "internal_code": "0986AF1041",
+      "name": "Filtro de Aceite para Toyota Yaris/Corolla 1.5/2.0",
+      "category": 1,
+      "price": 7900,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 2,
+    "fields": {
+      "sku": "AP-00002",
+      "brand": "Fram",
+      "internal_code": "PH4967",
+      "name": "Filtro de Aceite Fram PH4967 (Toyota RAV4/Camry 2.5)",
+      "category": 1,
+      "price": 8000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 3,
+    "fields": {
+      "sku": "AP-00003",
+      "brand": "ACDelco",
+      "internal_code": "PF48E",
+      "name": "Filtro de Aceite ACDelco PF48E (GM V8 5.3L)",
+      "category": 1,
+      "price": 6500,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 4,
+    "fields": {
+      "sku": "AP-00004",
+      "brand": "Mann",
+      "internal_code": "W712/22",
+      "name": "Filtro de Aceite Mann W712/22 (Chevrolet Spark 1.0/1.2)",
+      "category": 1,
+      "price": 3500,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 5,
+    "fields": {
+      "sku": "AP-00005",
+      "brand": "Mahle",
+      "internal_code": "OC264",
+      "name": "Filtro de Aceite Mahle OC264 (Volkswagen/Audi 1.8T)",
+      "category": 1,
+      "price": 5000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 6,
+    "fields": {
+      "sku": "AP-00006",
+      "brand": "Bosch",
+      "internal_code": "0986B02538",
+      "name": "Filtro de Aire Bosch 0986B02538 (Chevrolet Tracker 1.8)",
+      "category": 2,
+      "price": 12000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 7,
+    "fields": {
+      "sku": "AP-00007",
+      "brand": "Mann",
+      "internal_code": "C2419",
+      "name": "Filtro de Aire Mann C 2419 (Toyota Yaris 1.3/1.5)",
+      "category": 2,
+      "price": 8000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 8,
+    "fields": {
+      "sku": "AP-00008",
+      "brand": "Fram",
+      "internal_code": "CA11268",
+      "name": "Filtro de Aire Fram CA11268 (Toyota RAV4 2013-2018)",
+      "category": 2,
+      "price": 10000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 9,
+    "fields": {
+      "sku": "AP-00009",
+      "brand": "ACDelco",
+      "internal_code": "A3087C",
+      "name": "Filtro de Aire ACDelco A3087C (Chevrolet Silverado 5.3L)",
+      "category": 2,
+      "price": 12000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 10,
+    "fields": {
+      "sku": "AP-00010",
+      "brand": "K&N",
+      "internal_code": "33-2031-2",
+      "name": "Filtro de Aire de Alto Flujo K&N 33-2031-2 (Honda Civic/CR-V)",
+      "category": 2,
+      "price": 50000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 11,
+    "fields": {
+      "sku": "AP-00011",
+      "brand": "NGK",
+      "internal_code": "BKR6E-11",
+      "name": "Bujía NGK BKR6E-11 (Nissan/Toyota 1.6L, cobre)",
+      "category": 3,
+      "price": 2500,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 12,
+    "fields": {
+      "sku": "AP-00012",
+      "brand": "Bosch",
+      "internal_code": "FLR7HTC0",
+      "name": "Bujía de Níquel Bosch FLR7HTC0 (Volkswagen Gol 1.6)",
+      "category": 3,
+      "price": 6000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 13,
+    "fields": {
+      "sku": "AP-00013",
+      "brand": "Denso",
+      "internal_code": "SK20R11",
+      "name": "Bujía Denso SK20R11 Iridium (Toyota/Lexus 4 cil.)",
+      "category": 3,
+      "price": 9000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 14,
+    "fields": {
+      "sku": "AP-00014",
+      "brand": "Champion",
+      "internal_code": "RC12YC",
+      "name": "Bujía Champion RC12YC (Jeep/Chrysler 4.0L)",
+      "category": 3,
+      "price": 3000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 15,
+    "fields": {
+      "sku": "AP-00015",
+      "brand": "ACDelco",
+      "internal_code": "41-110",
+      "name": "Bujía ACDelco 41-110 Iridium (GM Vortec 5.3L)",
+      "category": 3,
+      "price": 5000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 16,
+    "fields": {
+      "sku": "AP-00016",
+      "brand": "Gates",
+      "internal_code": "5403XS",
+      "name": "Correa de Distribución Gates 5403XS (Toyota Corolla 1.6 92-99)",
+      "category": 4,
+      "price": 15000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 17,
+    "fields": {
+      "sku": "AP-00017",
+      "brand": "Dayco",
+      "internal_code": "94407",
+      "name": "Correa de Distribución Dayco 94407 (VW Passat 1.8 20V 98-00)",
+      "category": 4,
+      "price": 15000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 18,
+    "fields": {
+      "sku": "AP-00018",
+      "brand": "Continental",
+      "internal_code": "CT1143",
+      "name": "Correa de Distribución Continental CT1143 (Audi/VW 1.8T 20V)",
+      "category": 4,
+      "price": 20000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 19,
+    "fields": {
+      "sku": "AP-00019",
+      "brand": "Mitsuboshi",
+      "internal_code": "CD329",
+      "name": "Correa de Distribución Mitsuboshi CD329 (Mitsubishi/Hyundai 2.0L)",
+      "category": 4,
+      "price": 25000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 20,
+    "fields": {
+      "sku": "AP-00020",
+      "brand": "Bando",
+      "internal_code": "TB224",
+      "name": "Correa de Distribución Bando TB224 (Honda Civic 1.6 98-00)",
+      "category": 4,
+      "price": 10000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 21,
+    "fields": {
+      "sku": "AP-00021",
+      "brand": "Brembo",
+      "internal_code": "P23150",
+      "name": "Juego de Pastillas de Freno Brembo P23150 (Delanteras, Toyota Corolla)",
+      "category": 5,
+      "price": 30000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 22,
+    "fields": {
+      "sku": "AP-00022",
+      "brand": "Bosch",
+      "internal_code": "BP915",
+      "name": "Pastillas de Freno Bosch BP915 (Delanteras, Chevrolet Cruze)",
+      "category": 5,
+      "price": 25000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 23,
+    "fields": {
+      "sku": "AP-00023",
+      "brand": "TRW",
+      "internal_code": "GDB1540",
+      "name": "Pastillas de Freno TRW GDB1540 (Traseras, Volkswagen Golf)",
+      "category": 5,
+      "price": 20000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 24,
+    "fields": {
+      "sku": "AP-00024",
+      "brand": "Ferodo",
+      "internal_code": "FDB1624",
+      "name": "Pastillas de Freno Ferodo FDB1624 (Delanteras, Ford Focus)",
+      "category": 5,
+      "price": 22000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 25,
+    "fields": {
+      "sku": "AP-00025",
+      "brand": "ATE",
+      "internal_code": "13.0460-7184.2",
+      "name": "Pastillas de Freno ATE 13.0460-7184.2 (Delanteras, BMW Serie 3)",
+      "category": 5,
+      "price": 28000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 26,
+    "fields": {
+      "sku": "AP-00026",
+      "brand": "Brembo",
+      "internal_code": "09.6801.75",
+      "name": "Disco de Freno Brembo 09.6801.75 (Delantero, Toyota Hilux)",
+      "category": 6,
+      "price": 45000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 27,
+    "fields": {
+      "sku": "AP-00027",
+      "brand": "Bosch",
+      "internal_code": "0986479368",
+      "name": "Disco de Freno Bosch 0 986 479 368 (Delantero, VW Jetta)",
+      "category": 6,
+      "price": 40000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 28,
+    "fields": {
+      "sku": "AP-00028",
+      "brand": "TRW",
+      "internal_code": "DF2801",
+      "name": "Disco de Freno TRW DF2801 (Delantero, Chevrolet Onix)",
+      "category": 6,
+      "price": 35000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 29,
+    "fields": {
+      "sku": "AP-00029",
+      "brand": "ATE",
+      "internal_code": "24.0128-0216.1",
+      "name": "Disco de Freno ATE 24.0128-0216.1 (Trasero, Audi A4)",
+      "category": 6,
+      "price": 38000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 30,
+    "fields": {
+      "sku": "AP-00030",
+      "brand": "Ferodo",
+      "internal_code": "DDF1571",
+      "name": "Disco de Freno Ferodo DDF1571 (Trasero, Renault Duster)",
+      "category": 6,
+      "price": 30000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 31,
+    "fields": {
+      "sku": "AP-00031",
+      "brand": "Monroe",
+      "internal_code": "G8220",
+      "name": "Amortiguador Monroe G8220 (Delantero, Toyota Camry)",
+      "category": 7,
+      "price": 60000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 32,
+    "fields": {
+      "sku": "AP-00032",
+      "brand": "KYB",
+      "internal_code": "341279",
+      "name": "Amortiguador KYB 341279 Excel-G (Trasero, Honda Civic 01-05)",
+      "category": 7,
+      "price": 50000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 33,
+    "fields": {
+      "sku": "AP-00033",
+      "brand": "Sachs",
+      "internal_code": "312267",
+      "name": "Amortiguador Sachs 312267 (Delantero, BMW Serie 3 E46)",
+      "category": 7,
+      "price": 70000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 34,
+    "fields": {
+      "sku": "AP-00034",
+      "brand": "Gabriel",
+      "internal_code": "G57098",
+      "name": "Amortiguador Gabriel G57098 (Trasero, Chevrolet Silverado)",
+      "category": 7,
+      "price": 55000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 35,
+    "fields": {
+      "sku": "AP-00035",
+      "brand": "Bilstein",
+      "internal_code": "24-186742",
+      "name": "Amortiguador Bilstein 24-186742 (Delantero, Ford F-150 4x4)",
+      "category": 7,
+      "price": 80000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 36,
+    "fields": {
+      "sku": "AP-00036",
+      "brand": "TRW",
+      "internal_code": "JBJ800",
+      "name": "Rótula de Suspensión TRW JBJ800 (Inferior, Toyota Hilux)",
+      "category": 8,
+      "price": 20000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 37,
+    "fields": {
+      "sku": "AP-00037",
+      "brand": "MOOG",
+      "internal_code": "K500063",
+      "name": "Rótula de Suspensión MOOG K500063 (Delantera, Ford Explorer)",
+      "category": 8,
+      "price": 18000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 38,
+    "fields": {
+      "sku": "AP-00038",
+      "brand": "Lemförder",
+      "internal_code": "29989 01",
+      "name": "Rótula de Suspensión Lemförder 29989 01 (Inferior, BMW X3)",
+      "category": 8,
+      "price": 25000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 39,
+    "fields": {
+      "sku": "AP-00039",
+      "brand": "Febi",
+      "internal_code": "35224",
+      "name": "Rótula de Suspensión Febi 35224 (Inferior, Audi A3/TT)",
+      "category": 8,
+      "price": 22000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 40,
+    "fields": {
+      "sku": "AP-00040",
+      "brand": "Delphi",
+      "internal_code": "TC1279",
+      "name": "Rótula de Suspensión Delphi TC1279 (Delantera, Chevrolet Cruze)",
+      "category": 8,
+      "price": 17000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 41,
+    "fields": {
+      "sku": "AP-00041",
+      "brand": "Bosch",
+      "internal_code": "AL0820N",
+      "name": "Alternador Bosch AL0820N 14V 90A (Volkswagen Golf/Jetta)",
+      "category": 9,
+      "price": 120000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 42,
+    "fields": {
+      "sku": "AP-00042",
+      "brand": "Valeo",
+      "internal_code": "439845",
+      "name": "Alternador Valeo 439845 12V 110A (Renault Clio/Megane)",
+      "category": 9,
+      "price": 140000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 43,
+    "fields": {
+      "sku": "AP-00043",
+      "brand": "Denso",
+      "internal_code": "210-0560",
+      "name": "Alternador Denso 210-0560 12V 130A (Toyota Hilux 3.0D)",
+      "category": 9,
+      "price": 130000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 44,
+    "fields": {
+      "sku": "AP-00044",
+      "brand": "ACDelco",
+      "internal_code": "335-1179",
+      "name": "Alternador ACDelco 335-1179 12V 105A (Chevrolet Silverado)",
+      "category": 9,
+      "price": 150000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 45,
+    "fields": {
+      "sku": "AP-00045",
+      "brand": "Magneti Marelli",
+      "internal_code": "943320013600",
+      "name": "Alternador Magneti Marelli 943320013600 (Fiat Palio/Siena 1.8)",
+      "category": 9,
+      "price": 100000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 46,
+    "fields": {
+      "sku": "AP-00046",
+      "brand": "Bosch",
+      "internal_code": "S4-008",
+      "name": "Batería Bosch S4 008 74Ah (12V, 680 CCA)",
+      "category": 10,
+      "price": 80000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 47,
+    "fields": {
+      "sku": "AP-00047",
+      "brand": "Varta",
+      "internal_code": "E43",
+      "name": "Batería Varta Blue Dynamic E43 72Ah (12V, 680 CCA)",
+      "category": 10,
+      "price": 75000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 48,
+    "fields": {
+      "sku": "AP-00048",
+      "brand": "ACDelco",
+      "internal_code": "AD700",
+      "name": "Batería ACDelco AD700 70Ah (12V, 640 CCA)",
+      "category": 10,
+      "price": 70000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 49,
+    "fields": {
+      "sku": "AP-00049",
+      "brand": "Yuasa",
+      "internal_code": "NP65-12",
+      "name": "Batería Yuasa NP65-12 65Ah (12V)",
+      "category": 10,
+      "price": 60000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 50,
+    "fields": {
+      "sku": "AP-00050",
+      "brand": "Exide",
+      "internal_code": "N50ZL",
+      "name": "Batería Exide N50ZL 60Ah (12V)",
+      "category": 10,
+      "price": 65000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 51,
+    "fields": {
+      "sku": "AP-00051",
+      "brand": "Philips",
+      "internal_code": "Ultinon-P21R",
+      "name": "Ampolleta LED Philips Ultinon Pro3000 P21 Roja",
+      "category": 11,
+      "price": 14000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 52,
+    "fields": {
+      "sku": "AP-00052",
+      "brand": "Hella",
+      "internal_code": "1NL 008 090-821",
+      "name": "Kit Faros Neblineros Hella Comet 500 (H3 12V)",
+      "category": 11,
+      "price": 170000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 53,
+    "fields": {
+      "sku": "AP-00053",
+      "brand": "Osram",
+      "internal_code": "NightBreaker-H4",
+      "name": "Ampolletas Halógenas Osram Night Breaker Laser H4 (12V 60/55W, set 2)",
+      "category": 11,
+      "price": 20000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 54,
+    "fields": {
+      "sku": "AP-00054",
+      "brand": "Valeo",
+      "internal_code": "043908",
+      "name": "Foco Delantero Valeo 043908 (Derecho, Nissan Versa 2015-2019)",
+      "category": 11,
+      "price": 94000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 55,
+    "fields": {
+      "sku": "AP-00055",
+      "brand": "Philips",
+      "internal_code": "12342XV+S2",
+      "name": "Ampolletas Philips X-tremeVision H7 +130% (Set de 2)",
+      "category": 11,
+      "price": 15000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 56,
+    "fields": {
+      "sku": "AP-00056",
+      "brand": "Bosch",
+      "internal_code": "0 258 006 537",
+      "name": "Sensor de Oxígeno Bosch 0258006537 (4 cables, universal)",
+      "category": 12,
+      "price": 50000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 57,
+    "fields": {
+      "sku": "AP-00057",
+      "brand": "Hella",
+      "internal_code": "6PP 009 409-331",
+      "name": "Sensor MAP Hella 6PP 009 409-331 (Sensor Presión Absoluta)",
+      "category": 12,
+      "price": 30000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 58,
+    "fields": {
+      "sku": "AP-00058",
+      "brand": "NGK/NTK",
+      "internal_code": "EH0151",
+      "name": "Sensor de Oxígeno NTK EH0151 (Honda Civic 1.8)",
+      "category": 12,
+      "price": 45000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 59,
+    "fields": {
+      "sku": "AP-00059",
+      "brand": "Valeo",
+      "internal_code": "843448",
+      "name": "Sensor de Estacionamiento Valeo Beep&Park 843448 (Ultrasónico)",
+      "category": 12,
+      "price": 25000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 60,
+    "fields": {
+      "sku": "AP-00060",
+      "brand": "Bussmann",
+      "internal_code": "BP/ATM-15",
+      "name": "Fusibles Bussmann ATM-15 (Mini fusible 15A, pack 5)",
+      "category": 12,
+      "price": 2000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 61,
+    "fields": {
+      "sku": "AP-00061",
+      "brand": "Viper",
+      "internal_code": "3100VX",
+      "name": "Alarma de Auto Viper 3100VX (Sistema de Seguridad 1-Vía)",
+      "category": 13,
+      "price": 70000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 62,
+    "fields": {
+      "sku": "AP-00062",
+      "brand": "Clifford",
+      "internal_code": "3400X",
+      "name": "Alarma de Auto Clifford 3400X (2 controles, sensor de impacto)",
+      "category": 13,
+      "price": 80000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 63,
+    "fields": {
+      "sku": "AP-00063",
+      "brand": "Avital",
+      "internal_code": "3100L",
+      "name": "Alarma de Auto Avital 3100L (Cierre centralizado, 1-vía)",
+      "category": 13,
+      "price": 50000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 64,
+    "fields": {
+      "sku": "AP-00064",
+      "brand": "Nemesis",
+      "internal_code": "PP13",
+      "name": "Alarma de Auto Nemesis PP13 (Básica, anti-portonazo)",
+      "category": 13,
+      "price": 30000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 65,
+    "fields": {
+      "sku": "AP-00065",
+      "brand": "Steelmate",
+      "internal_code": "838G",
+      "name": "Alarma de Auto Steelmate 838G (2-vías, con sirena)",
+      "category": 13,
+      "price": 45000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 66,
+    "fields": {
+      "sku": "AP-00066",
+      "brand": "Marca Alternativa",
+      "internal_code": "UNIV-3PT-RT",
+      "name": "Cinturón de Seguridad Universal de 3 Puntas Retráctil (Negro)",
+      "category": 14,
+      "price": 11000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 67,
+    "fields": {
+      "sku": "AP-00067",
+      "brand": "Marca Alternativa",
+      "internal_code": "UNIV-2PT",
+      "name": "Cinturón de Seguridad Universal de 2 Puntas (abdominal)",
+      "category": 14,
+      "price": 5000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 68,
+    "fields": {
+      "sku": "AP-00068",
+      "brand": "Securon",
+      "internal_code": "500/30",
+      "name": "Cinturón de Seguridad Securon 500/30 (3 puntos retráctil, universal)",
+      "category": 14,
+      "price": 40000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 69,
+    "fields": {
+      "sku": "AP-00069",
+      "brand": "TRW",
+      "internal_code": "TRW-2PT-XL",
+      "name": "Cinturón de Seguridad de 2 Puntos TRW (Universal, estático)",
+      "category": 14,
+      "price": 20000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 70,
+    "fields": {
+      "sku": "AP-00070",
+      "brand": "Sparco",
+      "internal_code": "04716M1NR",
+      "name": "Arnés de Seguridad Sparco 4 Puntos (deportivo, homologado FIA)",
+      "category": 14,
+      "price": 150000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 71,
+    "fields": {
+      "sku": "AP-00071",
+      "brand": "Motorlife",
+      "internal_code": "ML-CueroGamuza",
+      "name": "Funda Cubre Asientos Cuero/Gamuza Motorlife (Juego completo, negro)",
+      "category": 15,
+      "price": 49000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 72,
+    "fields": {
+      "sku": "AP-00072",
+      "brand": "Motorlife",
+      "internal_code": "ML-Clasica",
+      "name": "Funda Cubre Asientos Serie Clásica Motorlife (Tela, gris - 5 asientos)",
+      "category": 15,
+      "price": 29000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 73,
+    "fields": {
+      "sku": "AP-00073",
+      "brand": "Motorlife",
+      "internal_code": "ML-DeportivaGris",
+      "name": "Funda Cubre Asientos Deportiva Motorlife (Diseño gris/negro, 9 piezas)",
+      "category": 15,
+      "price": 35000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 74,
+    "fields": {
+      "sku": "AP-00074",
+      "brand": "Michelin",
+      "internal_code": "MIC-9P-LEATHER",
+      "name": "Juego Fundas de Asiento Michelin (Eco-cuero, 9 piezas, universal)",
+      "category": 15,
+      "price": 60000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 75,
+    "fields": {
+      "sku": "AP-00075",
+      "brand": "Sparco",
+      "internal_code": "SPC-1000BK",
+      "name": "Juego Fundas de Asiento Sparco (Negro, estilo deportivo, 2 delanteros)",
+      "category": 15,
+      "price": 50000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 76,
+    "fields": {
+      "sku": "AP-00076",
+      "brand": "Power Grid",
+      "internal_code": "DKE-009",
+      "name": "Kit de Emergencia para Auto Lite 9 Piezas (Power Grid)",
+      "category": 16,
+      "price": 20000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 77,
+    "fields": {
+      "sku": "AP-00077",
+      "brand": "Power Grid",
+      "internal_code": "DKE-011STD",
+      "name": "Kit de Emergencia para Auto 11 Piezas (Power Grid)",
+      "category": 16,
+      "price": 15000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 78,
+    "fields": {
+      "sku": "AP-00078",
+      "brand": "Power Grid",
+      "internal_code": "DKE-011PRO",
+      "name": "Kit de Emergencia para Auto Pro 11 Piezas (Power Grid)",
+      "category": 16,
+      "price": 36000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 79,
+    "fields": {
+      "sku": "AP-00079",
+      "brand": "Michelin",
+      "internal_code": "MN-14",
+      "name": "Kit de Emergencia Vial Michelin (14 piezas, cables, linterna, botiquín)",
+      "category": 16,
+      "price": 60000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  },
+  {
+    "model": "api.product",
+    "pk": 80,
+    "fields": {
+      "sku": "AP-00080",
+      "brand": "Goodyear",
+      "internal_code": "GY-10",
+      "name": "Kit de Seguridad de Carretera Goodyear (10 piezas, estuche)",
+      "category": 16,
+      "price": 50000,
+      "created_at": "2024-06-01T12:00:00"
+    }
+  }
+]

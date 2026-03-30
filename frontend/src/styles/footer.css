@@ -1,0 +1,85 @@
+.footer {
+  margin-top: 3.2rem;
+  border-top: 1px solid rgba(152, 171, 196, 0.17);
+  background: linear-gradient(180deg, rgba(10, 14, 21, 0.92), rgba(7, 10, 15, 0.98));
+}
+
+.footer-top {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.35rem;
+  padding: 2rem 0;
+}
+
+.footer-column h4 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.02rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent-soft);
+}
+
+.footer-column p,
+.footer-column li,
+.footer-column a {
+  color: var(--text-mid);
+  font-size: 0.92rem;
+}
+
+.phone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  margin-top: 0.9rem;
+}
+
+.social-icons {
+  margin-top: 0.85rem;
+  display: flex;
+  gap: 0.45rem;
+}
+
+.social-icons a {
+  width: 1.95rem;
+  height: 1.95rem;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  border: 1px solid var(--line-soft);
+  background: rgba(16, 24, 35, 0.9);
+}
+
+.social-icons a:hover,
+.footer-column a:hover {
+  color: var(--text-high);
+  border-color: rgba(242, 162, 79, 0.66);
+}
+
+.brand-list,
+.legal-list {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(173, 193, 220, 0.12);
+  padding: 0.85rem 1rem 1.1rem;
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  color: var(--text-low);
+  font-size: 0.84rem;
+}
+
+@media (max-width: 860px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    padding-block: 1.5rem;
+  }
+}

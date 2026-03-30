@@ -1,0 +1,192 @@
+.profile-page {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.profile-header {
+  border: 1px solid rgba(156, 182, 216, 0.2);
+  border-radius: var(--radius-lg);
+  background: rgba(14, 21, 32, 0.95);
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.profile-avatar {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  border: 1px solid rgba(242, 162, 79, 0.45);
+  background: radial-gradient(circle at 28% 30%, rgba(242, 162, 79, 0.3), rgba(43, 60, 83, 0.6));
+  display: grid;
+  place-items: center;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: var(--accent-soft);
+}
+
+.profile-details h1 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.15rem);
+}
+
+.profile-details p {
+  margin: 0.3rem 0 0;
+  color: var(--text-mid);
+}
+
+.orders-summary {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.orders-summary p {
+  margin: 0;
+  border: 1px solid rgba(156, 182, 216, 0.18);
+  border-radius: var(--radius-pill);
+  background: rgba(14, 22, 34, 0.82);
+  color: var(--text-mid);
+  padding: 0.35rem 0.7rem;
+}
+
+.orders-section {
+  border: 1px solid rgba(156, 181, 214, 0.2);
+  border-radius: var(--radius-lg);
+  background: rgba(14, 21, 33, 0.93);
+  padding: 1rem;
+}
+
+.orders-section h2 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.5rem;
+}
+
+.orders-container {
+  margin-top: 0.75rem;
+  display: grid;
+  gap: 0.65rem;
+}
+
+.order-card {
+  border: 1px solid rgba(157, 183, 216, 0.2);
+  border-radius: var(--radius-md);
+  background: rgba(17, 24, 37, 0.92);
+  padding: 0.8rem;
+}
+
+.order-card header,
+.order-card footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.order-card h3 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.2rem;
+}
+
+.status {
+  margin: 0;
+  padding: 0.22rem 0.5rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(174, 197, 224, 0.26);
+  text-transform: uppercase;
+  font-size: 0.72rem;
+  letter-spacing: 0.05em;
+}
+
+.status-completado {
+  color: var(--success);
+}
+
+.status-pendiente,
+.status-pago_en_proceso {
+  color: var(--warning);
+}
+
+.status-rechazado,
+.status-cancelado {
+  color: var(--danger);
+}
+
+.order-card ul {
+  margin: 0.65rem 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.45rem;
+}
+
+.order-item {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 44px minmax(0, 1fr) auto auto;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.thumb-small {
+  width: 44px;
+  height: 44px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.item-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-qty {
+  color: var(--text-low);
+}
+
+.item-subtotal {
+  font-variant-numeric: tabular-nums;
+  color: var(--text-mid);
+}
+
+.order-total {
+  margin: 0;
+  color: var(--text-mid);
+}
+
+.profile-skeleton {
+  height: 140px;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 760px) {
+  .profile-header {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .profile-avatar {
+    margin-inline: auto;
+  }
+
+  .profile-actions {
+    display: grid;
+  }
+
+  .order-item {
+    grid-template-columns: 44px 1fr;
+  }
+
+  .item-subtotal {
+    grid-column: 1 / -1;
+  }
+}

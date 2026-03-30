@@ -1,0 +1,203 @@
+.home-page {
+  display: grid;
+  gap: 2rem;
+}
+
+.home-hero {
+  position: relative;
+  min-height: max(72vh, 520px);
+  display: grid;
+  align-items: end;
+  padding: 2.6rem 0;
+  background-image:
+    linear-gradient(110deg, rgba(7, 9, 14, 0.92), rgba(7, 9, 14, 0.5)),
+    url('https://images.unsplash.com/photo-1619767886558-efdc259cde1a?auto=format&fit=crop&w=1800&q=80');
+  background-size: cover;
+  background-position: center;
+  border-bottom: 1px solid rgba(156, 180, 212, 0.17);
+}
+
+.home-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 14% 14%, rgba(217, 138, 60, 0.22), transparent 45%);
+  pointer-events: none;
+}
+
+.home-hero-content {
+  position: relative;
+  z-index: 1;
+  width: min(var(--content-max), 100% - 2rem);
+}
+
+.home-kicker {
+  margin: 0;
+  display: inline-block;
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(255, 232, 203, 0.32);
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.11em;
+  font-size: 0.73rem;
+}
+
+.home-hero h1 {
+  margin: 0.9rem 0 0;
+  max-width: 14ch;
+  font-family: 'Rajdhani', sans-serif;
+  font-weight: 700;
+  font-size: clamp(2.25rem, 5.1vw, 4.5rem);
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.home-lead {
+  margin: 1rem 0 0;
+  max-width: 58ch;
+  color: var(--text-mid);
+  font-size: clamp(0.97rem, 1.8vw, 1.08rem);
+}
+
+.hero-actions {
+  margin-top: 1.35rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.feature-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.feature-item {
+  border: 1px solid rgba(168, 191, 220, 0.17);
+  border-radius: var(--radius-md);
+  background: var(--surface-2);
+  padding: 1rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.feature-item svg {
+  color: var(--accent-strong);
+}
+
+.feature-item h3 {
+  margin: 0.7rem 0 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.13rem;
+}
+
+.feature-item p {
+  margin: 0.38rem 0 0;
+  color: var(--text-mid);
+  font-size: 0.92rem;
+}
+
+.proof-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 1rem;
+  border: 1px solid rgba(152, 176, 207, 0.2);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(130deg, rgba(17, 25, 38, 0.92), rgba(12, 18, 28, 0.88));
+  padding: 1.4rem;
+}
+
+.proof-grid h2 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.7rem, 3vw, 2.3rem);
+  text-wrap: balance;
+}
+
+.proof-grid p {
+  margin-top: 0.7rem;
+  color: var(--text-mid);
+}
+
+.proof-grid ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.6rem;
+}
+
+.proof-grid li {
+  margin: 0;
+  border: 1px solid rgba(154, 181, 215, 0.2);
+  border-radius: 12px;
+  background: rgba(16, 24, 36, 0.86);
+  padding: 0.85rem;
+  color: var(--text-mid);
+}
+
+.proof-grid strong {
+  color: var(--text-high);
+  font-variant-numeric: tabular-nums;
+}
+
+.distributor-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 1.2rem;
+  border: 1px solid rgba(154, 177, 207, 0.18);
+  border-radius: var(--radius-lg);
+  background: var(--surface-1);
+  padding: 1.2rem;
+  margin-bottom: 0.4rem;
+}
+
+.distributor-panel h2 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.2rem);
+}
+
+.distributor-panel p {
+  color: var(--text-mid);
+}
+
+.form-distributor {
+  display: grid;
+  gap: 0.48rem;
+}
+
+.form-distributor label {
+  font-size: 0.83rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-low);
+}
+
+.form-feedback {
+  margin: 0.2rem 0 0;
+  color: var(--success);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1020px) {
+  .feature-strip,
+  .proof-grid,
+  .distributor-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .home-hero {
+    min-height: 66vh;
+  }
+
+  .hero-actions {
+    width: 100%;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-secondary {
+    width: 100%;
+  }
+}

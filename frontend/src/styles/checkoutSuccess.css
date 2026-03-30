@@ -1,0 +1,130 @@
+.checkout-success-page {
+  margin-top: 1.25rem;
+}
+
+.checkout-success-card {
+  border: 1px solid rgba(156, 182, 213, 0.2);
+  border-radius: var(--radius-lg);
+  background: rgba(14, 22, 34, 0.95);
+  padding: 1rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.checkout-success-card header {
+  border-bottom: 1px solid rgba(155, 180, 211, 0.18);
+  padding-bottom: 0.8rem;
+  margin-bottom: 0.75rem;
+}
+
+.success-kicker {
+  margin: 0;
+  color: var(--success);
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.checkout-success-card h1 {
+  margin: 0.2rem 0 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+}
+
+.checkout-success-card header p:last-child {
+  margin: 0.45rem 0 0;
+  color: var(--text-mid);
+}
+
+.success-items-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.success-item {
+  margin: 0;
+  border: 1px solid rgba(157, 183, 216, 0.18);
+  border-radius: 12px;
+  background: rgba(16, 24, 36, 0.9);
+  padding: 0.62rem;
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  gap: 0.55rem;
+  align-items: center;
+}
+
+.item-thumb {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.item-name,
+.item-qty,
+.item-subtotal {
+  margin: 0;
+}
+
+.item-name {
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+}
+
+.item-qty {
+  color: var(--text-low);
+  font-size: 0.82rem;
+}
+
+.item-subtotal {
+  color: var(--text-high);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.totals {
+  border-top: 1px solid rgba(155, 182, 214, 0.18);
+  margin-top: 0.8rem;
+  padding-top: 0.8rem;
+}
+
+.totals .subtotal,
+.totals .total {
+  margin: 0;
+}
+
+.totals .subtotal {
+  color: var(--text-mid);
+}
+
+.totals .total {
+  margin-top: 0.3rem;
+  color: var(--accent-soft);
+  font-size: 1.16rem;
+  font-weight: 800;
+}
+
+.actions {
+  margin-top: 0.95rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+@media (max-width: 680px) {
+  .success-item {
+    grid-template-columns: 52px 1fr;
+  }
+
+  .item-subtotal {
+    grid-column: 1 / -1;
+  }
+
+  .actions .btn-secondary,
+  .actions .btn-primary {
+    width: 100%;
+    text-align: center;
+  }
+}

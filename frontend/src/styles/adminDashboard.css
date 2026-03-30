@@ -1,0 +1,149 @@
+.admin-page {
+  margin-top: 1.25rem;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.admin-hero {
+  border: 1px solid rgba(160, 184, 215, 0.22);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, rgba(18, 27, 40, 0.95), rgba(10, 16, 26, 0.95));
+  padding: 1rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.admin-kicker {
+  margin: 0;
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--accent-soft);
+}
+
+.admin-hero h1 {
+  margin: 0.25rem 0 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.8rem);
+  line-height: 1;
+}
+
+.admin-hero p:last-child {
+  margin: 0.55rem 0 0;
+  color: var(--text-mid);
+}
+
+.admin-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.metrics-grid {
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+}
+
+.two-columns {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.metric-card,
+.admin-card {
+  border: 1px solid rgba(156, 182, 214, 0.2);
+  border-radius: var(--radius-md);
+  background: rgba(15, 22, 34, 0.94);
+  padding: 0.9rem;
+}
+
+.metric-card p {
+  margin: 0;
+  color: var(--text-low);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.metric-card h3 {
+  margin: 0.3rem 0 0;
+  color: var(--text-high);
+  font-size: 1.35rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.admin-card h2 {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.3rem;
+}
+
+.admin-form {
+  margin-top: 0.65rem;
+  display: grid;
+  gap: 0.52rem;
+}
+
+.grid-form {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.grid-form textarea,
+.grid-form button {
+  grid-column: 1 / -1;
+}
+
+.simple-list {
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.simple-list li {
+  margin: 0;
+  color: var(--text-mid);
+  border: 1px solid rgba(158, 184, 215, 0.17);
+  border-radius: 10px;
+  background: rgba(10, 16, 24, 0.85);
+  padding: 0.38rem 0.55rem;
+}
+
+.table-wrap {
+  margin-top: 0.65rem;
+  overflow-x: auto;
+}
+
+.table-wrap table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 600px;
+}
+
+.table-wrap th,
+.table-wrap td {
+  border-bottom: 1px solid rgba(152, 178, 211, 0.16);
+  text-align: left;
+  padding: 0.5rem;
+  color: var(--text-mid);
+  font-size: 0.88rem;
+}
+
+.table-wrap th {
+  color: var(--text-high);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.table-wrap td select {
+  min-width: 120px;
+}
+
+.admin-skeleton {
+  height: 150px;
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 860px) {
+  .grid-form {
+    grid-template-columns: 1fr;
+  }
+}

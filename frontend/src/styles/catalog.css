@@ -1,0 +1,134 @@
+.catalog-page {
+  display: grid;
+  gap: 0.95rem;
+  margin-top: 1.4rem;
+}
+
+.catalog-hero {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.catalog-kicker {
+  margin: 0;
+  color: var(--accent-soft);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 0.76rem;
+}
+
+.catalog-hero h1 {
+  margin: 0.2rem 0 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.9rem, 3.3vw, 2.9rem);
+  line-height: 0.96;
+  text-wrap: balance;
+}
+
+.catalog-copy {
+  margin: 0.6rem 0 0;
+  color: var(--text-mid);
+}
+
+.catalog-count {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-low);
+  font-variant-numeric: tabular-nums;
+}
+
+.catalog-search {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 0.45rem;
+  border: 1px solid rgba(162, 182, 207, 0.22);
+  border-radius: var(--radius-pill);
+  background: rgba(14, 20, 30, 0.92);
+  padding: 0.36rem 0.38rem 0.36rem 0.65rem;
+}
+
+.catalog-search svg {
+  color: var(--text-low);
+}
+
+.catalog-search input {
+  border: 0;
+  background: transparent;
+  padding: 0.5rem 0.2rem;
+}
+
+.catalog-search .btn-primary {
+  padding: 0.58rem 0.95rem;
+  border-radius: var(--radius-pill);
+  font-size: 0.86rem;
+}
+
+.filter-bar {
+  overflow-x: auto;
+  padding-bottom: 0.2rem;
+}
+
+.cat-scroll {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cat-scroll li {
+  margin: 0;
+}
+
+.cat-scroll button {
+  border: 1px solid rgba(159, 185, 219, 0.22);
+  border-radius: var(--radius-pill);
+  background: rgba(15, 22, 33, 0.84);
+  color: var(--text-mid);
+  cursor: pointer;
+  padding: 0.45rem 0.82rem;
+  font-size: 0.84rem;
+  white-space: nowrap;
+}
+
+.cat-scroll button.active,
+.cat-scroll button:hover,
+.cat-scroll button:focus-visible {
+  color: #161616;
+  border-color: transparent;
+  background: linear-gradient(145deg, var(--accent), var(--accent-strong));
+}
+
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.85rem;
+}
+
+.catalog-skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 0.85rem;
+}
+
+.catalog-skeleton-card {
+  height: 318px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(147, 171, 203, 0.13);
+}
+
+@media (max-width: 760px) {
+  .catalog-search {
+    grid-template-columns: auto 1fr;
+  }
+
+  .catalog-search .btn-primary {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}

@@ -1,0 +1,182 @@
+.order-summary-page {
+  margin-top: 1.2rem;
+}
+
+.order-summary-card {
+  border: 1px solid rgba(156, 182, 214, 0.2);
+  border-radius: var(--radius-lg);
+  background: rgba(14, 21, 33, 0.95);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+}
+
+.order-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.9rem;
+  padding: 1rem;
+  border-bottom: 1px solid rgba(161, 183, 213, 0.17);
+}
+
+.order-label {
+  margin: 0;
+  color: var(--accent-soft);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+}
+
+.order-header h1 {
+  margin: 0.25rem 0 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: clamp(1.5rem, 2.8vw, 2.25rem);
+}
+
+.order-date {
+  margin: 0.35rem 0 0;
+  color: var(--text-mid);
+}
+
+.order-status {
+  margin: 0;
+  border: 1px solid rgba(176, 196, 223, 0.26);
+  border-radius: var(--radius-pill);
+  padding: 0.32rem 0.6rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.status-pendiente,
+.status-pago_en_proceso {
+  color: var(--warning);
+}
+
+.status-completado {
+  color: var(--success);
+}
+
+.status-rechazado,
+.status-cancelado {
+  color: var(--danger);
+}
+
+.order-items-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.order-item {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto auto;
+  gap: 0.6rem;
+  align-items: center;
+  padding: 0.78rem 1rem;
+  border-bottom: 1px solid rgba(160, 184, 217, 0.14);
+}
+
+.order-item:last-child {
+  border-bottom: 0;
+}
+
+.thumb-small {
+  width: 58px;
+  height: 58px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid rgba(157, 184, 217, 0.25);
+}
+
+.item-details {
+  min-width: 0;
+}
+
+.item-name {
+  margin: 0;
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1.03rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-sku {
+  margin: 0.2rem 0 0;
+  color: var(--text-low);
+  font-size: 0.82rem;
+}
+
+.item-qty,
+.item-subtotal {
+  color: var(--text-mid);
+  font-variant-numeric: tabular-nums;
+}
+
+.item-subtotal {
+  color: var(--text-high);
+  font-weight: 700;
+}
+
+.order-total {
+  border-top: 1px solid rgba(160, 186, 219, 0.15);
+  margin: 0;
+  padding: 0.9rem 1rem;
+  display: grid;
+  gap: 0.3rem;
+}
+
+.order-total p {
+  margin: 0;
+  color: var(--text-mid);
+}
+
+.order-total .total-line {
+  color: var(--accent-soft);
+  font-size: 1.15rem;
+  font-weight: 800;
+}
+
+.order-actions {
+  border-top: 1px solid rgba(160, 186, 219, 0.15);
+  padding: 0.9rem 1rem 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.payment-status {
+  margin: 0;
+  color: var(--text-mid);
+}
+
+@media (max-width: 760px) {
+  .order-header {
+    flex-direction: column;
+  }
+
+  .order-item {
+    grid-template-columns: 52px minmax(0, 1fr);
+    grid-template-areas:
+      'image details'
+      'qty qty'
+      'subtotal subtotal';
+  }
+
+  .order-item .thumb-small {
+    grid-area: image;
+  }
+
+  .order-item .item-details {
+    grid-area: details;
+  }
+
+  .order-item .item-qty {
+    grid-area: qty;
+  }
+
+  .order-item .item-subtotal {
+    grid-area: subtotal;
+  }
+}
