@@ -28,6 +28,7 @@ cd backend
 python manage.py check
 python manage.py test
 python manage.py bootstrap_portfolio --force-passwords
+python manage.py bootstrap_portfolio --reset-stock
 ```
 
 Frontend:

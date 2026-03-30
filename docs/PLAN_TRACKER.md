@@ -17,6 +17,7 @@ Estado de ejecucion del plan maestro (actualizado al 2026-03-29).
 - [x] Postgres como default operacional.
 - [x] RBAC backend para admin/distributor.
 - [x] Healthcheck + logging estructurado.
+- [x] Correlacion por request (`X-Request-ID`) + trazabilidad en eventos criticos (ordenes/pagos).
 - [x] Tests backend criticos.
 - [x] OpenAPI schema + Swagger + ReDoc.
 
@@ -36,6 +37,7 @@ Estado de ejecucion del plan maestro (actualizado al 2026-03-29).
 - [x] Plantillas PR/Issue.
 - [x] Bootstrap de demo (`python manage.py bootstrap_portfolio`).
 - [x] E2E Playwright para flujos clave.
+- [x] Auditoria final de cierre (`docs/FINAL_AUDIT.md`).
 
 ## Plan PR sugerido (orden)
 1. `chore/foundations-docker-env-quality-gates`

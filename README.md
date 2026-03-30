@@ -39,9 +39,15 @@ Con stack levantado:
 docker compose exec backend python manage.py bootstrap_portfolio
 ```
 
+Para resetear stock demo completo del catalogo (util despues de varias compras QA):
+```bash
+docker compose exec backend python manage.py bootstrap_portfolio --reset-stock
+```
+
 Este comando:
 - Carga `api/fixtures/products.json` si no hay productos.
 - Crea/actualiza usuarios demo `admin_portfolio`, `cliente_demo`, `dist_demo`.
+- Reequilibra stock agotado (o todo el catalogo con `--reset-stock`).
 - Permite override por variables `PORTFOLIO_*` en `backend/.env`.
 
 ## Endpoints clave
@@ -49,12 +55,13 @@ Este comando:
 - Catalogo: `GET /api/products/` (`q`, `category`, `channel=b2b`)
 - Carrito: `GET/POST /api/cart/`, `PATCH/DELETE /api/cart/{id}/`
 - Ordenes: `POST /api/orders/`, `GET /api/orders/{id}/`, `GET /api/orders/user/`
-- Webpay: `POST /api/webpay/init/`, `POST /api/webpay/commit/`
+- Webpay: `POST /api/webpay/init/`, `POST /api/webpay/return/`, `POST /api/webpay/commit/`
 - Backoffice admin:
   - `GET /api/admin/metrics/`
-  - `GET/POST/PATCH /api/admin/products/`
-  - `GET/POST /api/admin/categories/`
+  - `GET/POST/PATCH/DELETE /api/admin/products/`
+  - `GET/POST/DELETE /api/admin/categories/`
   - `GET/PATCH /api/admin/orders/`
+  - `GET/PATCH /api/admin/payments/`
   - `GET/PATCH /api/admin/users/`
 
 ## Roles
@@ -63,6 +70,11 @@ Este comando:
 - `admin`: backoffice y administracion.
 
 Nota: el registro publico solo permite `customer` y `distributor`.
+
+Flujo de compra:
+- `POST /api/orders/` prepara la orden para pago.
+- El carrito se mantiene hasta pago exitoso.
+- Stock y conciliacion de carrito se aplican en `POST /api/webpay/commit/` autorizado.
 
 ## Calidad y pruebas
 Backend:
@@ -80,6 +92,11 @@ npm run build
 npm run test:ci
 npm run e2e
 ```
+
+## Observabilidad
+- Logs backend en formato JSON estructurado.
+- Header de correlacion `X-Request-ID` en todas las respuestas API.
+- Eventos criticos trazados: creacion de orden, init/commit Webpay y cambios admin de pagos.
 
 ## Flujo de trabajo recomendado
 0. Inicializar git (si el directorio no esta versionado):
@@ -106,3 +123,4 @@ git init
 - [Mapa MCP](docs/MCP_MAP.md)
 - [Tracker del plan](docs/PLAN_TRACKER.md)
 - [Plan visual Fase 4](docs/UIUX_PHASE4_PLAN.md)
+- [Auditoria final](docs/FINAL_AUDIT.md)
