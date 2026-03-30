@@ -106,8 +106,20 @@ jobs:
           echo "Backend healthcheck failed"
           docker compose logs backend
           exit 1
-      - name: Frontend smoke
-        run: curl -fsS http://localhost:3000 > /dev/null
+      - name: Wait for frontend readiness
+        run: |
+          for i in {1..36}; do
+            if curl -fsS --max-time 10 http://localhost:3000 > /dev/null; then
+              echo "Frontend is ready"
+              exit 0
+            fi
+            sleep 5
+          done
+          echo "Frontend smoke failed"
+          docker compose logs frontend
+          docker compose logs backend
+          docker compose logs db
+          exit 1
       - name: Shutdown stack
         if: always()
         run: docker compose down -v
