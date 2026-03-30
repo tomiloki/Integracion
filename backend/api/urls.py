@@ -6,6 +6,7 @@ from .views import (
     AdminCategoryViewSet,
     AdminMetricsView,
     AdminOrderViewSet,
+    AdminPaymentViewSet,
     AdminProductViewSet,
     AdminUserViewSet,
     CartItemDetailView,
@@ -29,6 +30,7 @@ router.register(r"products", ProductViewSet, basename="products")
 router.register(r"admin/categories", AdminCategoryViewSet, basename="admin-categories")
 router.register(r"admin/products", AdminProductViewSet, basename="admin-products")
 router.register(r"admin/orders", AdminOrderViewSet, basename="admin-orders")
+router.register(r"admin/payments", AdminPaymentViewSet, basename="admin-payments")
 router.register(r"admin/users", AdminUserViewSet, basename="admin-users")
 
 urlpatterns = [

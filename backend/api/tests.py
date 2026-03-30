@@ -84,7 +84,7 @@ class EcommerceApiTests(APITestCase):
         self.assertTrue(first_product["is_b2b_price"])
         self.assertLess(first_product["effective_price"], float(first_product["price"]))
 
-    def test_create_order_decrements_stock_and_clears_cart(self):
+    def test_create_order_keeps_cart_and_stock_until_payment_commit(self):
         self.authenticate("customer1")
         add_cart = self.client.post(
             "/api/cart/",
@@ -97,8 +97,8 @@ class EcommerceApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
         self.product.refresh_from_db()
-        self.assertEqual(self.product.quantity, 17)
-        self.assertEqual(CartItem.objects.filter(user=self.customer).count(), 0)
+        self.assertEqual(self.product.quantity, 20)
+        self.assertEqual(CartItem.objects.filter(user=self.customer).count(), 1)
 
     @patch("api.webpay_views.requests.post")
     @patch("api.webpay_views.requests.put")
@@ -111,6 +111,11 @@ class EcommerceApiTests(APITestCase):
             product=self.product,
             quantity=2,
             price=Decimal("10000"),
+        )
+        CartItem.objects.create(
+            user=self.customer,
+            product=self.product,
+            quantity=3,
         )
 
         post_response = Mock()
@@ -149,8 +154,12 @@ class EcommerceApiTests(APITestCase):
 
         order.refresh_from_db()
         payment.refresh_from_db()
+        self.product.refresh_from_db()
+        cart_item = CartItem.objects.get(user=self.customer, product=self.product)
         self.assertEqual(order.status, Order.STATUS_COMPLETED)
         self.assertEqual(payment.status, Payment.STATUS_PAID)
+        self.assertEqual(self.product.quantity, 18)
+        self.assertEqual(cart_item.quantity, 1)
 
     def test_payment_endpoint_deprecated_and_admin_only(self):
         self.authenticate("customer1")
@@ -162,6 +171,70 @@ class EcommerceApiTests(APITestCase):
         deprecated_response = self.client.post("/api/payments/", {}, format="json")
         self.assertEqual(deprecated_response.status_code, status.HTTP_410_GONE)
 
+    def test_admin_can_list_and_update_payments(self):
+        order = Order.objects.create(user=self.customer, status=Order.STATUS_PENDING)
+        payment = Payment.objects.create(
+            order=order,
+            amount=Decimal("11900"),
+            method="webpay",
+            status=Payment.STATUS_INITIATED,
+            token_ws="token-admin-payment",
+        )
+
+        self.authenticate("admin1")
+
+        list_response = self.client.get("/api/admin/payments/")
+        self.assertEqual(list_response.status_code, status.HTTP_200_OK)
+        listed = list_response.data["results"]
+        self.assertGreaterEqual(len(listed), 1)
+        self.assertTrue(any(item["id"] == payment.id for item in listed))
+
+        patch_response = self.client.patch(
+            f"/api/admin/payments/{payment.id}/",
+            {"status": Payment.STATUS_PAID},
+            format="json",
+        )
+        self.assertEqual(patch_response.status_code, status.HTTP_200_OK)
+
+        payment.refresh_from_db()
+        order.refresh_from_db()
+        self.assertEqual(payment.status, Payment.STATUS_PAID)
+        self.assertEqual(order.status, Order.STATUS_COMPLETED)
+
+    def test_admin_cannot_delete_category_with_products(self):
+        self.authenticate("admin1")
+        response = self.client.delete(f"/api/admin/categories/{self.category.id}/")
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_admin_can_update_user_activation_and_role(self):
+        self.authenticate("admin1")
+        response = self.client.patch(
+            f"/api/admin/users/{self.customer.id}/",
+            {"role": "distributor", "is_active": "false"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.customer.refresh_from_db()
+        self.assertEqual(self.customer.role, "distributor")
+        self.assertFalse(self.customer.is_active)
+
+    def test_admin_cannot_deactivate_or_demote_self(self):
+        self.authenticate("admin1")
+
+        deactivate = self.client.patch(
+            f"/api/admin/users/{self.admin.id}/",
+            {"is_active": False},
+            format="json",
+        )
+        self.assertEqual(deactivate.status_code, status.HTTP_400_BAD_REQUEST)
+
+        demote = self.client.patch(
+            f"/api/admin/users/{self.admin.id}/",
+            {"role": "customer"},
+            format="json",
+        )
+        self.assertEqual(demote.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_webpay_return_redirects_token_to_frontend(self):
         response = self.client.post("/api/webpay/return/", {"token_ws": "token-xyz-1"})
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
@@ -172,3 +245,14 @@ class EcommerceApiTests(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_302_FOUND)
         self.assertIn("cancelled=1", response["Location"])
         self.assertIn("tbk_token=tbk-cancel-1", response["Location"])
+
+    def test_health_includes_generated_request_id_header(self):
+        response = self.client.get("/api/health/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertIn("X-Request-ID", response.headers)
+        self.assertTrue(len(response.headers["X-Request-ID"]) >= 8)
+
+    def test_health_preserves_incoming_request_id_header(self):
+        response = self.client.get("/api/health/", HTTP_X_REQUEST_ID="qa-request-123")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.headers.get("X-Request-ID"), "qa-request-123")

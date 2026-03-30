@@ -3,7 +3,7 @@ from django.contrib.auth.password_validation import validate_password
 from rest_framework import serializers
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
-from .models import CartItem, Category, Order, OrderItem, Product, User
+from .models import CartItem, Category, Order, OrderItem, Payment, Product, User
 from .services import compute_b2b_price, compute_order_subtotal, compute_total_with_tax
 
 
@@ -205,3 +205,33 @@ class OrderAdminSerializer(serializers.ModelSerializer):
 
     def get_total(self, obj):
         return float(compute_order_subtotal(obj.items.all()))
+
+
+class PaymentAdminSerializer(serializers.ModelSerializer):
+    order_id = serializers.IntegerField(source="order.id", read_only=True)
+    order_status = serializers.CharField(source="order.status", read_only=True)
+    username = serializers.CharField(source="order.user.username", read_only=True)
+
+    class Meta:
+        model = Payment
+        fields = [
+            "id",
+            "order_id",
+            "order_status",
+            "username",
+            "amount",
+            "method",
+            "status",
+            "paid_at",
+            "token_ws",
+        ]
+        read_only_fields = [
+            "id",
+            "order_id",
+            "order_status",
+            "username",
+            "amount",
+            "method",
+            "paid_at",
+            "token_ws",
+        ]

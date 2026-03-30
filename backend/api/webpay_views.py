@@ -4,17 +4,19 @@ from urllib.parse import urlencode
 
 import requests
 from django.conf import settings
+from django.db import transaction
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404
 from django.urls import reverse
 from django.utils import timezone
 from requests.exceptions import RequestException
 from rest_framework import status
+from rest_framework.exceptions import ValidationError
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .models import Order, Payment
+from .models import CartItem, Order, Payment, Product
 from .serializers import OrderSerializer
 from .services import compute_order_subtotal, compute_total_with_tax
 
@@ -96,6 +98,19 @@ class WebpayInitView(APIView):
         order.status = Order.STATUS_PAYMENT_IN_PROGRESS
         order.save(update_fields=["status"])
 
+        logger.info(
+            "Webpay transaction initialized",
+            extra={
+                "event": "webpay_init",
+                "order_id": order.id,
+                "user_id": request.user.id,
+                "role": request.user.role,
+                "token_ws": data["token"],
+                "path": request.path,
+                "method": request.method,
+            },
+        )
+
         return Response({"url": data["url"], "token": data["token"]}, status=status.HTTP_200_OK)
 
 
@@ -113,6 +128,15 @@ class WebpayReturnView(APIView):
     def post(self, request):
         token = request.data.get("token_ws") or request.POST.get("token_ws")
         if token:
+            logger.info(
+                "Webpay return received with token",
+                extra={
+                    "event": "webpay_return",
+                    "token_ws": token,
+                    "path": request.path,
+                    "method": request.method,
+                },
+            )
             return HttpResponseRedirect(self._frontend_success_url(token_ws=token))
 
         return HttpResponseRedirect(
@@ -149,6 +173,17 @@ class WebpayCommitView(APIView):
 
         if payment.status == Payment.STATUS_PAID and order.status == Order.STATUS_COMPLETED:
             serializer = OrderSerializer(order, context={"request": request})
+            logger.info(
+                "Webpay commit skipped (already committed)",
+                extra={
+                    "event": "webpay_commit_already_processed",
+                    "payment_id": payment.id,
+                    "order_id": order.id,
+                    "token_ws": token,
+                    "path": request.path,
+                    "method": request.method,
+                },
+            )
             return Response(
                 {
                     "order": serializer.data,
@@ -191,6 +226,17 @@ class WebpayCommitView(APIView):
             payment.save(update_fields=["status"])
             order.status = Order.STATUS_REJECTED
             order.save(update_fields=["status"])
+            logger.warning(
+                "Webpay commit rejected due to mismatched order data",
+                extra={
+                    "event": "webpay_commit_mismatch",
+                    "payment_id": payment.id,
+                    "order_id": order.id,
+                    "token_ws": token,
+                    "path": request.path,
+                    "method": request.method,
+                },
+            )
             return Response(
                 {
                     "error": "La respuesta de Webpay no coincide con el pedido.",
@@ -204,20 +250,96 @@ class WebpayCommitView(APIView):
                 status=status.HTTP_400_BAD_REQUEST,
             )
 
-        payment.status = (
-            Payment.STATUS_PAID
-            if commit.get("status") == "AUTHORIZED"
-            else Payment.STATUS_REJECTED
-        )
-        payment.paid_at = timezone.now() if payment.status == Payment.STATUS_PAID else None
-        payment.save(update_fields=["status", "paid_at"])
+        commit_is_authorized = commit.get("status") == "AUTHORIZED"
+        if commit_is_authorized:
+            try:
+                with transaction.atomic():
+                    order_items = list(order.items.select_related("product").order_by("id"))
+                    locked_products = {
+                        product.id: product
+                        for product in Product.objects.select_for_update().filter(
+                            id__in=[item.product_id for item in order_items]
+                        )
+                    }
 
-        order.status = (
-            Order.STATUS_COMPLETED
-            if payment.status == Payment.STATUS_PAID
-            else Order.STATUS_REJECTED
+                    for item in order_items:
+                        product = locked_products[item.product_id]
+                        if item.quantity > product.quantity:
+                            raise ValidationError(
+                                {
+                                    "error": (
+                                        f"Stock insuficiente para {product.name}. "
+                                        f"Quedan {product.quantity} unidades."
+                                    )
+                                }
+                            )
+
+                    for item in order_items:
+                        product = locked_products[item.product_id]
+                        product.quantity -= item.quantity
+                        product.save(update_fields=["quantity"])
+
+                        cart_item = CartItem.objects.filter(
+                            user=order.user,
+                            product_id=item.product_id,
+                        ).first()
+                        if cart_item:
+                            remaining_qty = cart_item.quantity - item.quantity
+                            if remaining_qty > 0:
+                                cart_item.quantity = remaining_qty
+                                cart_item.save(update_fields=["quantity"])
+                            else:
+                                cart_item.delete()
+
+                    payment.status = Payment.STATUS_PAID
+                    payment.paid_at = timezone.now()
+                    payment.save(update_fields=["status", "paid_at"])
+
+                    order.status = Order.STATUS_COMPLETED
+                    order.save(update_fields=["status"])
+            except ValidationError as exc:
+                payment.status = Payment.STATUS_REJECTED
+                payment.paid_at = None
+                payment.save(update_fields=["status", "paid_at"])
+                order.status = Order.STATUS_REJECTED
+                order.save(update_fields=["status"])
+
+                logger.warning(
+                    "Webpay commit rejected due to stock conflict",
+                    extra={
+                        "event": "webpay_commit_stock_conflict",
+                        "payment_id": payment.id,
+                        "order_id": order.id,
+                        "token_ws": token,
+                        "path": request.path,
+                        "method": request.method,
+                    },
+                )
+                return Response(
+                    {
+                        "error": "No se pudo finalizar el pago por conflicto de stock.",
+                        "detail": getattr(exc, "detail", str(exc)),
+                    },
+                    status=status.HTTP_409_CONFLICT,
+                )
+        else:
+            payment.status = Payment.STATUS_REJECTED
+            payment.paid_at = None
+            payment.save(update_fields=["status", "paid_at"])
+            order.status = Order.STATUS_REJECTED
+            order.save(update_fields=["status"])
+
+        logger.info(
+            "Webpay commit processed",
+            extra={
+                "event": "webpay_commit",
+                "payment_id": payment.id,
+                "order_id": order.id,
+                "token_ws": token,
+                "path": request.path,
+                "method": request.method,
+            },
         )
-        order.save(update_fields=["status"])
 
         serializer = OrderSerializer(order, context={"request": request})
         return Response(

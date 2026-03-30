@@ -19,6 +19,7 @@ from .serializers import (
     CustomTokenObtainPairSerializer,
     OrderAdminSerializer,
     OrderSerializer,
+    PaymentAdminSerializer,
     ProductAdminSerializer,
     ProductSerializer,
     UserAdminSerializer,
@@ -132,6 +133,18 @@ class CartItemListCreateView(generics.ListCreateAPIView):
             product=product,
             quantity=quantity,
         )
+        logger.info(
+            "Cart item created",
+            extra={
+                "event": "cart_item_created",
+                "user_id": user.id,
+                "role": user.role,
+                "order_id": None,
+                "payment_id": None,
+                "path": self.request.path,
+                "method": self.request.method,
+            },
+        )
 
 
 class CartItemDetailView(generics.RetrieveUpdateDestroyAPIView):
@@ -165,28 +178,43 @@ class CreateOrderView(APIView):
         if not cart_items:
             return Response({"error": "El carrito esta vacio."}, status=status.HTTP_400_BAD_REQUEST)
 
-        product_ids = [item.product_id for item in cart_items]
-        locked_products = {
-            product.id: product
-            for product in Product.objects.select_for_update().filter(id__in=product_ids)
-        }
+        for item in cart_items:
+            if item.quantity > item.product.quantity:
+                raise ValidationError(
+                    f"Stock insuficiente para {item.product.name}. Quedan {item.product.quantity}."
+                )
 
         order = Order.objects.create(user=user, status=Order.STATUS_PENDING)
+        logger.info(
+            "Order creation started",
+            extra={
+                "event": "order_create_started",
+                "order_id": order.id,
+                "user_id": user.id,
+                "role": user.role,
+                "path": request.path,
+                "method": request.method,
+            },
+        )
         for item in cart_items:
-            product = locked_products[item.product_id]
-            if item.quantity > product.quantity:
-                raise ValidationError(f"Stock insuficiente para {product.name}. Quedan {product.quantity}.")
-
             OrderItem.objects.create(
                 order=order,
-                product=product,
+                product=item.product,
                 quantity=item.quantity,
-                price=product.price,
+                price=item.product.price,
             )
-            product.quantity -= item.quantity
-            product.save(update_fields=["quantity"])
 
-        CartItem.objects.filter(user=user).delete()
+        logger.info(
+            "Order created successfully",
+            extra={
+                "event": "order_created",
+                "order_id": order.id,
+                "user_id": user.id,
+                "role": user.role,
+                "path": request.path,
+                "method": request.method,
+            },
+        )
         serializer = OrderSerializer(order, context={"request": request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
@@ -232,6 +260,15 @@ class AdminCategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
     permission_classes = [IsAuthenticated, IsAdminRole]
 
+    def destroy(self, request, *args, **kwargs):
+        category = self.get_object()
+        if category.products.exists():
+            return Response(
+                {"detail": "No se puede eliminar una categoria con productos asociados."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        return super().destroy(request, *args, **kwargs)
+
 
 class AdminProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.select_related("category").all().order_by("-created_at")
@@ -261,11 +298,80 @@ class AdminOrderViewSet(viewsets.ModelViewSet):
         return Response(serializer.data)
 
 
+class AdminPaymentViewSet(viewsets.ModelViewSet):
+    queryset = Payment.objects.select_related("order__user").all().order_by("-id")
+    serializer_class = PaymentAdminSerializer
+    permission_classes = [IsAuthenticated, IsAdminRole]
+    http_method_names = ["get", "patch", "head", "options"]
+
+    def partial_update(self, request, *args, **kwargs):
+        payment = self.get_object()
+        new_status = request.data.get("status")
+        valid_statuses = {choice[0] for choice in Payment.STATUS_CHOICES}
+
+        if new_status not in valid_statuses:
+            return Response(
+                {"detail": "Estado de pago invalido."},
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        payment.status = new_status
+        if new_status == Payment.STATUS_PAID:
+            payment.paid_at = timezone.now()
+            payment.order.status = Order.STATUS_COMPLETED
+        elif new_status == Payment.STATUS_REJECTED:
+            payment.paid_at = None
+            payment.order.status = Order.STATUS_REJECTED
+        elif new_status == Payment.STATUS_INITIATED:
+            payment.paid_at = None
+            payment.order.status = Order.STATUS_PAYMENT_IN_PROGRESS
+        else:
+            payment.paid_at = None
+            payment.order.status = Order.STATUS_PENDING
+
+        payment.save(update_fields=["status", "paid_at"])
+        payment.order.save(update_fields=["status"])
+
+        logger.info(
+            "Admin updated payment status",
+            extra={
+                "event": "admin_payment_status_updated",
+                "payment_id": payment.id,
+                "order_id": payment.order_id,
+                "user_id": request.user.id,
+                "role": request.user.role,
+                "status_code": status.HTTP_200_OK,
+                "path": request.path,
+                "method": request.method,
+            },
+        )
+
+        serializer = self.get_serializer(payment)
+        return Response(serializer.data)
+
+
 class AdminUserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all().order_by("-date_joined")
     serializer_class = UserAdminSerializer
     permission_classes = [IsAuthenticated, IsAdminRole]
     http_method_names = ["get", "patch", "head", "options"]
+
+    @staticmethod
+    def _parse_bool(value):
+        if isinstance(value, bool):
+            return value
+
+        if isinstance(value, str):
+            normalized = value.strip().lower()
+            if normalized in {"true", "1", "yes", "on"}:
+                return True
+            if normalized in {"false", "0", "no", "off"}:
+                return False
+
+        if isinstance(value, (int, float)):
+            return bool(value)
+
+        raise ValidationError({"is_active": "Valor invalido para is_active."})
 
     def partial_update(self, request, *args, **kwargs):
         user = self.get_object()
@@ -273,11 +379,22 @@ class AdminUserViewSet(viewsets.ModelViewSet):
             role = request.data["role"]
             if role not in {"customer", "distributor", "admin"}:
                 return Response({"detail": "Rol invalido."}, status=status.HTTP_400_BAD_REQUEST)
+            if user.id == request.user.id and role != "admin":
+                return Response(
+                    {"detail": "No puedes remover tu propio rol admin."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
             user.role = role
             user.is_staff = role == "admin"
 
         if "is_active" in request.data:
-            user.is_active = bool(request.data["is_active"])
+            parsed_is_active = self._parse_bool(request.data["is_active"])
+            if user.id == request.user.id and not parsed_is_active:
+                return Response(
+                    {"detail": "No puedes desactivar tu propio usuario."},
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            user.is_active = parsed_is_active
 
         user.save(update_fields=["role", "is_staff", "is_active"])
         serializer = self.get_serializer(user)

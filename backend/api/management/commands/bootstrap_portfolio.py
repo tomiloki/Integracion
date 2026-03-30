@@ -21,6 +21,11 @@ class Command(BaseCommand):
             action="store_true",
             help="Forzar actualizacion de password en usuarios demo ya existentes.",
         )
+        parser.add_argument(
+            "--reset-stock",
+            action="store_true",
+            help="Reasigna stock demo en todo el catalogo (no solo agotados).",
+        )
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.NOTICE("Iniciando bootstrap de portafolio..."))
@@ -29,7 +34,7 @@ class Command(BaseCommand):
             self._load_products_fixture()
 
         self._ensure_demo_product()
-        self._rebalance_catalog_stock()
+        self._rebalance_catalog_stock(force_all=options["reset_stock"])
         self._ensure_demo_users(force_passwords=options["force_passwords"])
         self.stdout.write(self.style.SUCCESS("Bootstrap completado correctamente."))
 
@@ -133,8 +138,8 @@ class Command(BaseCommand):
         action = "creado" if created else "actualizado"
         self.stdout.write(f"Producto demo {action}: {product.sku}")
 
-    def _rebalance_catalog_stock(self):
-        products_to_restock = Product.objects.filter(quantity__lte=0)
+    def _rebalance_catalog_stock(self, force_all: bool = False):
+        products_to_restock = Product.objects.all() if force_all else Product.objects.filter(quantity__lte=0)
         updated_count = 0
         for product in products_to_restock:
             # Distribucion deterministica para stock demo variado.
@@ -142,4 +147,7 @@ class Command(BaseCommand):
             product.save(update_fields=["quantity"])
             updated_count += 1
 
-        self.stdout.write(f"Stock demo ajustado en {updated_count} productos.")
+        if force_all:
+            self.stdout.write(f"Stock demo reseteado en {updated_count} productos.")
+        else:
+            self.stdout.write(f"Stock demo ajustado en {updated_count} productos.")
