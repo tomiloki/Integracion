@@ -15,16 +15,6 @@ def env_list(name: str, default: str = "") -> list[str]:
     return [item.strip() for item in raw.split(",") if item.strip()]
 
 
-def env_value_or_default(name: str, default: str, placeholders: set[str] | None = None) -> str:
-    value = os.getenv(name, "").strip()
-    if placeholders is None:
-        placeholders = {"replace-me", "changeme", "change-me"}
-
-    if not value or value.lower() in placeholders:
-        return default
-    return value
-
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "django-insecure-change-this-secret")
@@ -162,11 +152,8 @@ SIMPLE_JWT = {
 }
 
 WEBPAY_HOST = os.getenv("WEBPAY_HOST", "https://webpay3gint.transbank.cl")
-WEBPAY_COMMERCE_CODE = env_value_or_default("WEBPAY_COMMERCE_CODE", "597055555532")
-WEBPAY_API_KEY = env_value_or_default(
-    "WEBPAY_API_KEY",
-    "579B532A7440BB0C9079DED94D31EA1615BACEB56610332264630D42D0A36B1C",
-)
+WEBPAY_COMMERCE_CODE = os.getenv("WEBPAY_COMMERCE_CODE", "")
+WEBPAY_API_KEY = os.getenv("WEBPAY_API_KEY", "")
 WEBPAY_TIMEOUT_SECONDS = int(os.getenv("WEBPAY_TIMEOUT_SECONDS", "20"))
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:3000")
 

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-label="Home premium B2C/B2B">
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#070a0f"/><stop offset="1" stop-color="#172132"/></linearGradient></defs>
+<rect width="900" height="520" rx="28" fill="url(#bg)"/>
+<rect x="40" y="40" width="820" height="72" rx="18" fill="#111a27" stroke="#2e3e55"/>
+<text x="70" y="86" fill="#f2a24f" font-size="28" font-family="Manrope, Arial" font-weight="800">AUTO</text><text x="148" y="86" fill="#f1f5fb" font-size="28" font-family="Manrope, Arial" font-weight="800">PARTS</text>
+<text x="70" y="178" fill="#f1f5fb" font-size="44" font-family="Manrope, Arial" font-weight="800">Home premium B2C/B2B</text>
+<text x="72" y="220" fill="#b9c4d6" font-size="20" font-family="Manrope, Arial">Hero comercial, canales y propuesta de valor.</text>
+<rect x="70" y="250" width="210" height="140" rx="18" fill="#172132" stroke="#2e3e55"/><text x="92" y="305" fill="#f2a24f" font-size="20" font-family="Manrope, Arial" font-weight="700">Cat?logo</text><rect x="92" y="330" width="130" height="10" rx="5" fill="#8897ae"/><rect x="92" y="355" width="165" height="10" rx="5" fill="#2e3e55"/><rect x="315" y="250" width="210" height="140" rx="18" fill="#172132" stroke="#2e3e55"/><text x="337" y="305" fill="#f2a24f" font-size="20" font-family="Manrope, Arial" font-weight="700">B2B</text><rect x="337" y="330" width="130" height="10" rx="5" fill="#8897ae"/><rect x="337" y="355" width="165" height="10" rx="5" fill="#2e3e55"/><rect x="560" y="250" width="210" height="140" rx="18" fill="#172132" stroke="#2e3e55"/><text x="582" y="305" fill="#f2a24f" font-size="20" font-family="Manrope, Arial" font-weight="700">Webpay</text><rect x="582" y="330" width="130" height="10" rx="5" fill="#8897ae"/><rect x="582" y="355" width="165" height="10" rx="5" fill="#2e3e55"/>
+</svg>

@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
 import { useAuth } from '../context/authContext';
+import { getOrderById } from '../services/orderService';
 import { commitWebpay } from '../services/paymentService';
 import '../styles/checkoutSuccess.css';
 
@@ -12,6 +13,7 @@ export default function CheckoutSuccess() {
   const cancelled = params.get('cancelled') === '1';
   const tbkToken = params.get('tbk_token') || params.get('TBK_TOKEN');
   const [result, setResult] = useState(null);
+  const [order, setOrder] = useState(null);
   const [error, setError] = useState('');
   const didCommit = useRef(false);
 
@@ -20,7 +22,23 @@ export default function CheckoutSuccess() {
     didCommit.current = true;
 
     commitWebpay(tokenWs)
-      .then((payload) => setResult(payload))
+      .then(async (payload) => {
+        setResult(payload);
+        if (payload.order) {
+          setOrder(payload.order);
+          return;
+        }
+
+        const orderId = payload.payment?.order_id;
+        if (orderId) {
+          try {
+            const orderDetail = await getOrderById(orderId);
+            setOrder(orderDetail);
+          } catch {
+            setOrder(null);
+          }
+        }
+      })
       .catch(() => setError('No fue posible confirmar el pago con Webpay.'));
   }, [tokenWs]);
 
@@ -58,10 +76,11 @@ export default function CheckoutSuccess() {
 
   if (!result) return <p className="state-panel">Confirmando pago...</p>;
 
-  const { order, commit } = result;
-  const items = order.items || [];
+  const { commit, payment } = result;
+  const items = order?.items || [];
+  const orderId = order?.id || payment?.order_id;
   const subtotal = items.reduce((sum, item) => sum + item.quantity * item.price, 0);
-  const total = commit.amount || subtotal;
+  const total = payment?.amount || commit?.amount || subtotal;
 
   return (
     <main className="page-shell checkout-success-page fade-in-up">
@@ -69,21 +88,27 @@ export default function CheckoutSuccess() {
         <header>
           <p className="success-kicker">Pago confirmado</p>
           <h1>Gracias{user?.username ? `, ${user.username}` : ''}</h1>
-          <p>Pedido #{order.id} procesado correctamente.</p>
+          <p>Pedido #{orderId} procesado correctamente.</p>
         </header>
 
-        <ul className="success-items-list">
-          {items.map((item, index) => (
-            <li key={`${item.product.id}-${index}`} className="success-item">
-              <img src={item.product.image || '/logo192.png'} alt={item.product.name} className="item-thumb" loading="lazy" />
-              <div className="item-info">
-                <p className="item-name">{item.product.name}</p>
-                <p className="item-qty">Cantidad: {item.quantity}</p>
-              </div>
-              <p className="item-subtotal">${(item.quantity * item.price).toLocaleString('es-CL')} CLP</p>
-            </li>
-          ))}
-        </ul>
+        {items.length > 0 ? (
+          <ul className="success-items-list">
+            {items.map((item, index) => (
+              <li key={`${item.product.id}-${index}`} className="success-item">
+                <img src={item.product.image || '/logo192.png'} alt={item.product.name} className="item-thumb" loading="lazy" />
+                <div className="item-info">
+                  <p className="item-name">{item.product.name}</p>
+                  <p className="item-qty">Cantidad: {item.quantity}</p>
+                </div>
+                <p className="item-subtotal">${(item.quantity * item.price).toLocaleString('es-CL')} CLP</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="subtotal">
+            Pago confirmado. Inicia sesión y revisa tu perfil para ver el detalle completo del pedido.
+          </p>
+        )}
 
         <div className="totals">
           <p className="subtotal">Subtotal: ${subtotal.toLocaleString('es-CL')} CLP</p>

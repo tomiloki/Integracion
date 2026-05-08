@@ -2,6 +2,7 @@ from decimal import Decimal
 from unittest.mock import Mock, patch
 
 import jwt
+from django.core.exceptions import ValidationError as DjangoValidationError
 from rest_framework import status
 from rest_framework.test import APITestCase
 
@@ -84,6 +85,46 @@ class EcommerceApiTests(APITestCase):
         self.assertTrue(first_product["is_b2b_price"])
         self.assertLess(first_product["effective_price"], float(first_product["price"]))
 
+    def test_public_product_contract_hides_internal_fields(self):
+        response = self.client.get("/api/products/")
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        first_product = response.data["results"][0]
+        self.assertNotIn("internal_code", first_product)
+        self.assertNotIn("author", first_product)
+
+    def test_product_rejects_negative_price_and_quantity(self):
+        product = Product(
+            sku="SKU-BAD-001",
+            brand="ACME",
+            internal_code="IC-BAD",
+            name="Producto invalido",
+            category=self.category,
+            price=Decimal("-1"),
+            quantity=-1,
+        )
+
+        with self.assertRaises(DjangoValidationError):
+            product.full_clean()
+
+    def test_admin_product_api_rejects_negative_values(self):
+        self.authenticate("admin1")
+        response = self.client.post(
+            "/api/admin/products/",
+            {
+                "sku": "SKU-BAD-002",
+                "brand": "ACME",
+                "internal_code": "IC-BAD-002",
+                "name": "Producto invalido API",
+                "category_id": self.category.id,
+                "price": -100,
+                "quantity": -2,
+                "description": "No debe guardarse",
+                "author": "test",
+            },
+            format="json",
+        )
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     def test_create_order_keeps_cart_and_stock_until_payment_commit(self):
         self.authenticate("customer1")
         add_cart = self.client.post(
@@ -151,6 +192,10 @@ class EcommerceApiTests(APITestCase):
             format="json",
         )
         self.assertEqual(commit_response.status_code, status.HTTP_200_OK)
+        self.assertNotIn("order", commit_response.data)
+        self.assertEqual(commit_response.data["payment"]["order_id"], order.id)
+        self.assertEqual(commit_response.data["payment"]["payment_status"], Payment.STATUS_PAID)
+        self.assertEqual(commit_response.data["commit"]["status"], "AUTHORIZED")
 
         order.refresh_from_db()
         payment.refresh_from_db()

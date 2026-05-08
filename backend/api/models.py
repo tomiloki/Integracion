@@ -1,6 +1,7 @@
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
+from django.core.validators import MinValueValidator
 from django.db import models
 
 
@@ -26,8 +27,17 @@ class Product(models.Model):
         related_name="products",
         verbose_name=_("Categoria"),
     )
-    price = models.DecimalField(max_digits=10, decimal_places=2, verbose_name=_("Precio CLP"))
-    quantity = models.IntegerField(default=0, verbose_name=_("Cantidad en stock"))
+    price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        validators=[MinValueValidator(0)],
+        verbose_name=_("Precio CLP"),
+    )
+    quantity = models.IntegerField(
+        default=0,
+        validators=[MinValueValidator(0)],
+        verbose_name=_("Cantidad en stock"),
+    )
     image = models.ImageField(upload_to="products/", null=True, blank=True, verbose_name=_("Imagen"))
     description = models.TextField(blank=True, verbose_name=_("Descripcion tecnica"))
     author = models.CharField(
@@ -42,6 +52,16 @@ class Product(models.Model):
         verbose_name = _("Producto")
         verbose_name_plural = _("Productos")
         ordering = ["-created_at"]
+        constraints = [
+            models.CheckConstraint(
+                check=models.Q(price__gte=0),
+                name="product_price_non_negative",
+            ),
+            models.CheckConstraint(
+                check=models.Q(quantity__gte=0),
+                name="product_quantity_non_negative",
+            ),
+        ]
 
     def __str__(self):
         return f"{self.name} - {self.brand}"

@@ -1,42 +1,43 @@
-# Auditoria final de cierre (2026-03-29)
+# Auditoria de readiness para portfolio (2026-05-08)
 
 ## Alcance validado
-- Flujo B2C completo: login -> catalogo -> carrito -> orden -> Webpay sandbox -> confirmacion.
-- Flujo B2B: catalogo mayorista con precio efectivo, acciones de detalle/agregar y stock visible.
-- Backoffice admin: metricas, CRUD de productos/categorias, gestion de pedidos/pagos/usuarios.
-- Robustez operativa: healthcheck, logs JSON, `X-Request-ID`, RBAC y guardrails administrativos.
+- Flujo B2C/B2B/backoffice identificado como base principal del portfolio.
+- Seguridad de dependencias runtime frontend revisada con `npm audit --omit=dev --audit-level=moderate`.
+- Contrato publico de catalogo ajustado para no exponer campos internos.
+- Commit Webpay ajustado para devolver una respuesta publica minima.
+- CI alineado para ejecutar e2e Playwright contra el stack Docker.
 
-## Evidencia de pruebas
+## Evidencia local de esta iteracion
 - Backend:
-  - `python manage.py check`
-  - `python manage.py test` (16 tests, OK)
+  - `python manage.py makemigrations --check --dry-run` -> OK, sin cambios pendientes.
+  - `python manage.py check` -> OK.
+  - `python manage.py test` -> OK, 19 tests.
 - Frontend:
-  - `npm run lint`
-  - `npm run test:ci`
-  - `npm run build`
-  - `npm run e2e` (4 tests, OK)
-- QA navegador manual:
-  - Webpay sandbox validado end-to-end con retorno y commit exitoso.
-  - Navbar de carrito muestra badge y feedback inline al agregar productos.
-  - Vistas `Nosotros` y `Contacto` verificadas en desktop.
+  - `npm run lint` -> OK.
+  - `npm run test:ci -- --passWithNoTests` -> OK, 6 tests.
+  - `npm audit --omit=dev --audit-level=moderate` -> OK, 0 vulnerabilidades runtime.
+- No se ejecuto build local por regla del repo; queda validado por CI.
 
-## Mejoras cerradas en este bloque
-- Admin users:
-  - soporte robusto para `is_active` en backend (incluye parseo seguro de booleanos).
-  - guardrails para evitar auto-desactivacion o auto-democion de admin.
-  - toggle activo/inactivo desde backoffice React.
-- Bootstrap demo:
-  - nuevo flag `--reset-stock` para rehidratar todo el catalogo tras QA intensivo.
-- UX:
-  - `autocomplete` correcto en formularios de login/registro.
-  - E2E adicional para badge del carrito + mensaje de producto agregado.
-
-## Estado operativo para demo
-- Ejecutado:
-  - `python manage.py bootstrap_portfolio --reset-stock --force-passwords`
-- Resultado:
-  - usuarios demo actualizados y 81 productos con stock demo reequilibrado.
+## Cambios cerrados
+- Presentacion publica:
+  - README reescrito para portfolio profesional.
+  - Manifest, favicon y logos reemplazados por branding AutoParts.
+  - Placeholders visuales agregados en `docs/assets/screenshots/`.
+- Backend/API:
+  - `Product.price` y `Product.quantity` protegidos con validadores y constraints.
+  - Serializer publico de productos ya no expone `internal_code` ni `author`.
+  - Webpay commit devuelve payload minimo (`payment`, `commit`, `already_committed`).
+- Frontend:
+  - Checkout success consulta el detalle autenticado de orden cuando el commit solo devuelve payload minimo.
+  - Tests frontend ampliados para rutas protegidas, login, catalogo, carrito/card y navbar.
+  - Backoffice separado en hook + componentes de seccion.
+- CI:
+  - Docker smoke ahora instala dependencias e2e y ejecuta Playwright contra el stack.
+  - `docker-compose.yml` expone al frontend la URL API segun `BACKEND_HOST_PORT` y al backend los origenes CORS segun `FRONTEND_HOST_PORT` para CI/local.
+- Seguridad:
+  - `.env.example` y defaults de bootstrap ya no incluyen claves Webpay ni passwords realistas.
 
 ## Riesgos residuales
-- Dependencia externa de Webpay sandbox (latencia/disponibilidad de Transbank).
-- Recomendado actualizar `browserslist` periodicamente para mantener toolchain al dia.
+- CRA/react-scripts sigue como toolchain dev; runtime audit queda limpio, pero una migracion futura a Vite mejoraria mantenimiento.
+- Webpay sandbox externo puede tener latencia o indisponibilidad; e2e evita depender del pago externo completo.
+- JWT sigue en `localStorage` por simplicidad demo; README documenta el tradeoff.

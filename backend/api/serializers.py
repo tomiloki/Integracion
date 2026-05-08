@@ -24,7 +24,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "id",
             "sku",
             "brand",
-            "internal_code",
             "name",
             "category",
             "price",
@@ -34,7 +33,6 @@ class ProductSerializer(serializers.ModelSerializer):
             "quantity",
             "image",
             "description",
-            "author",
         ]
         read_only_fields = ["id", "created_at"]
 
@@ -57,6 +55,7 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductAdminSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
     category_id = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all(),
         source="category"

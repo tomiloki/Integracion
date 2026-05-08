@@ -105,7 +105,6 @@ class WebpayInitView(APIView):
                 "order_id": order.id,
                 "user_id": request.user.id,
                 "role": request.user.role,
-                "token_ws": data["token"],
                 "path": request.path,
                 "method": request.method,
             },
@@ -132,7 +131,6 @@ class WebpayReturnView(APIView):
                 "Webpay return received with token",
                 extra={
                     "event": "webpay_return",
-                    "token_ws": token,
                     "path": request.path,
                     "method": request.method,
                 },
@@ -163,6 +161,30 @@ class WebpayCommitView(APIView):
     authentication_classes = []
     permission_classes = [AllowAny]
 
+    @staticmethod
+    def _safe_commit_summary(commit: dict) -> dict:
+        return {
+            "status": commit.get("status"),
+            "amount": commit.get("amount"),
+            "buy_order": commit.get("buy_order"),
+            "authorization_code": commit.get("authorization_code"),
+            "payment_type_code": commit.get("payment_type_code"),
+            "response_code": commit.get("response_code"),
+        }
+
+    @staticmethod
+    def _payment_summary(payment: Payment, already_committed: bool = False) -> dict:
+        order = payment.order
+        return {
+            "payment_id": payment.id,
+            "order_id": order.id,
+            "payment_status": payment.status,
+            "order_status": order.status,
+            "amount": float(payment.amount),
+            "paid_at": payment.paid_at.isoformat() if payment.paid_at else None,
+            "already_committed": already_committed,
+        }
+
     def post(self, request):
         token = request.data.get("token_ws")
         if not token:
@@ -172,22 +194,20 @@ class WebpayCommitView(APIView):
         order = payment.order
 
         if payment.status == Payment.STATUS_PAID and order.status == Order.STATUS_COMPLETED:
-            serializer = OrderSerializer(order, context={"request": request})
             logger.info(
                 "Webpay commit skipped (already committed)",
                 extra={
                     "event": "webpay_commit_already_processed",
                     "payment_id": payment.id,
                     "order_id": order.id,
-                    "token_ws": token,
                     "path": request.path,
                     "method": request.method,
                 },
             )
             return Response(
                 {
-                    "order": serializer.data,
-                    "commit": {"status": "AUTHORIZED", "token": token},
+                    "payment": self._payment_summary(payment, already_committed=True),
+                    "commit": {"status": "AUTHORIZED", "amount": float(payment.amount), "buy_order": str(order.id)},
                     "already_committed": True,
                 },
                 status=status.HTTP_200_OK,
@@ -232,7 +252,6 @@ class WebpayCommitView(APIView):
                     "event": "webpay_commit_mismatch",
                     "payment_id": payment.id,
                     "order_id": order.id,
-                    "token_ws": token,
                     "path": request.path,
                     "method": request.method,
                 },
@@ -310,7 +329,6 @@ class WebpayCommitView(APIView):
                         "event": "webpay_commit_stock_conflict",
                         "payment_id": payment.id,
                         "order_id": order.id,
-                        "token_ws": token,
                         "path": request.path,
                         "method": request.method,
                     },
@@ -335,17 +353,15 @@ class WebpayCommitView(APIView):
                 "event": "webpay_commit",
                 "payment_id": payment.id,
                 "order_id": order.id,
-                "token_ws": token,
                 "path": request.path,
                 "method": request.method,
             },
         )
 
-        serializer = OrderSerializer(order, context={"request": request})
         return Response(
             {
-                "order": serializer.data,
-                "commit": commit,
+                "payment": self._payment_summary(payment),
+                "commit": self._safe_commit_summary(commit),
                 "already_committed": False,
             },
             status=status.HTTP_200_OK,
