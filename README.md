@@ -1,89 +1,106 @@
-# AutoParts Integracion
+# AutoParts ? E-commerce B2C/B2B con Backoffice y Webpay
 
-Proyecto full-stack de e-commerce automotriz orientado a portafolio profesional.
+AutoParts es un proyecto full-stack de e-commerce automotriz pensado para portfolio profesional: cat?logo B2C, canal mayorista B2B, carrito, ?rdenes, Webpay sandbox, backoffice administrativo, documentaci?n t?cnica y CI. La intenci?n no es mostrar una demo aislada, sino un flujo de producto defendible de punta a punta.
+
+## Qu? demuestra
+
+- Backend Django + DRF con JWT, roles y contratos documentados.
+- Flujo de compra completo: cat?logo ? carrito ? orden ? Webpay sandbox ? confirmaci?n.
+- Canal B2B protegido con precios efectivos por rol distribuidor/admin.
+- Backoffice para productos, categor?as, pagos, ?rdenes, usuarios y m?tricas.
+- Docker Compose para levantar PostgreSQL, API y frontend en local.
+- Observabilidad b?sica: healthcheck, logs JSON y `X-Request-ID`.
 
 ## Stack
-- Backend: Django + DRF + JWT + Webpay (sandbox)
-- Frontend: React + React Router + Axios
-- DB: PostgreSQL (entorno estandar)
-- Infra local: Docker Compose
-- CI: GitHub Actions
 
-## Arquitectura
-- `backend/`: API REST, autenticacion, carrito, ordenes, pagos y backoffice.
-- `frontend/`: app publica (B2C), canal B2B y backoffice admin React.
-- `docs/`: guias de operacion, API y framework de trabajo con agentes.
+| Capa | Tecnolog?a |
+| --- | --- |
+| Backend | Django, Django REST Framework, Simple JWT, drf-spectacular |
+| Frontend | React, React Router, Axios, React Testing Library, Playwright |
+| Base de datos | PostgreSQL |
+| Infra local | Docker Compose |
+| Pagos | Webpay sandbox / integraci?n Transbank |
+| Calidad | GitHub Actions, tests backend/frontend, lint, Docker smoke, e2e |
 
-## Inicio rapido (Docker)
-1. Copiar variables:
-   - `copy .env.example .env`
-   - `copy backend\.env.example backend\.env`
-   - `copy frontend\.env.example frontend\.env`
-2. Configurar secretos del proyecto (especialmente `DJANGO_SECRET_KEY`).
-   - Webpay queda listo por defecto con credenciales publicas de integracion (sandbox).
-   - Opcional: ajustar puertos host via `.env`:
-     - `POSTGRES_HOST_PORT` (default `5432`)
-     - `BACKEND_HOST_PORT` (default `8000`)
-     - `FRONTEND_HOST_PORT` (default `3000`)
-   - El stack Docker ejecuta bootstrap demo al iniciar (`BOOTSTRAP_PORTFOLIO=true` por defecto).
-     - Para desactivarlo, define `BOOTSTRAP_PORTFOLIO=false` en el `.env` raiz.
+## Arquitectura r?pida
+
+```text
+backend/   API REST, auth, dominio ecommerce, Webpay, backoffice y tests
+docs/      referencia API, auditor?a, playbook operativo y planes
+frontend/  tienda B2C, canal B2B, backoffice React y e2e
+.github/   templates y workflow CI
+```
+
+## Capturas / demo visual
+
+> Las capturas son placeholders de portfolio generados para documentar el recorrido visual. Reemplazar por screenshots reales cuando se publique una demo p?blica.
+
+| Home | Cat?logo | Backoffice |
+| --- | --- | --- |
+| ![Home placeholder](docs/assets/screenshots/home-preview.svg) | ![Cat?logo placeholder](docs/assets/screenshots/catalog-preview.svg) | ![Backoffice placeholder](docs/assets/screenshots/admin-preview.svg) |
+
+## Inicio r?pido con Docker
+
+1. Copiar variables de ejemplo:
+
+```bash
+copy .env.example .env
+copy backend\.env.example backend\.env
+copy frontend\.env.example frontend\.env
+```
+
+2. Revisar secretos locales:
+
+- `DJANGO_SECRET_KEY`: usar un valor propio en local.
+- Configurar `WEBPAY_COMMERCE_CODE` y `WEBPAY_API_KEY` con credenciales sandbox/integraci?n propias.
+- No usar credenciales demo ni valores de ejemplo en producci?n.
+
 3. Levantar stack:
+
 ```bash
 docker compose up --build
 ```
-4. URLs:
+
+4. URLs principales:
+
 - Frontend: `http://localhost:3000`
 - Backend API: `http://localhost:8000/api`
 - Healthcheck: `http://localhost:8000/api/health/`
-- OpenAPI schema: `http://localhost:8000/api/schema/`
 - Swagger UI: `http://localhost:8000/api/docs/swagger/`
 - ReDoc: `http://localhost:8000/api/docs/redoc/`
 
-## Bootstrap demo (portfolio)
-Con stack levantado:
+## Usuarios demo locales
+
+El stack Docker ejecuta bootstrap demo por defecto (`BOOTSTRAP_PORTFOLIO=true`). Las credenciales son **solo para entorno local/demo**.
+
+| Rol | Usuario | Password | Uso |
+| --- | --- | --- | --- |
+| Admin | `admin_portfolio` | `PORTFOLIO_ADMIN_PASSWORD` | Backoffice `/admin-app` |
+| Cliente | `cliente_demo` | `PORTFOLIO_CUSTOMER_PASSWORD` | Compra B2C |
+| Distribuidor | `dist_demo` | `PORTFOLIO_DISTRIBUTOR_PASSWORD` | Cat?logo B2B |
+
+Para rehidratar datos demo manualmente:
+
 ```bash
-docker compose exec backend python manage.py bootstrap_portfolio
+docker compose exec backend python manage.py bootstrap_portfolio --reset-stock --force-passwords
 ```
 
-Para resetear stock demo completo del catalogo (util despues de varias compras QA):
-```bash
-docker compose exec backend python manage.py bootstrap_portfolio --reset-stock
-```
+## Flujos clave
 
-Este comando:
-- Carga `api/fixtures/products.json` si no hay productos.
-- Crea/actualiza usuarios demo `admin_portfolio`, `cliente_demo`, `dist_demo`.
-- Reequilibra stock agotado (o todo el catalogo con `--reset-stock`).
-- Permite override por variables `PORTFOLIO_*` en `backend/.env`.
+- Registro p?blico: solo `customer` y `distributor`.
+- Login JWT con claims de `role` y `username`.
+- Cat?logo p?blico: `GET /api/products/` con filtros `q`, `search`, `category`.
+- Cat?logo B2B: `channel=b2b`, requiere rol `distributor` o `admin`.
+- Orden: `POST /api/orders/` prepara el pago sin descontar stock todav?a.
+- Webpay: `POST /api/webpay/init/` y `POST /api/webpay/commit/` cierran el flujo.
+- Backoffice: m?tricas, productos, categor?as, pagos, ?rdenes y usuarios.
 
-## Endpoints clave
-- Auth: `POST /api/token/`, `POST /api/token/refresh/`, `POST /api/register/`
-- Catalogo: `GET /api/products/` (`q`, `category`, `channel=b2b`)
-- Carrito: `GET/POST /api/cart/`, `PATCH/DELETE /api/cart/{id}/`
-- Ordenes: `POST /api/orders/`, `GET /api/orders/{id}/`, `GET /api/orders/user/`
-- Webpay: `POST /api/webpay/init/`, `POST /api/webpay/return/`, `POST /api/webpay/commit/`
-- Backoffice admin:
-  - `GET /api/admin/metrics/`
-  - `GET/POST/PATCH/DELETE /api/admin/products/`
-  - `GET/POST/DELETE /api/admin/categories/`
-  - `GET/PATCH /api/admin/orders/`
-  - `GET/PATCH /api/admin/payments/`
-  - `GET/PATCH /api/admin/users/`
+## Calidad y evidencia
 
-## Roles
-- `customer`: compra retail.
-- `distributor`: acceso a canal B2B.
-- `admin`: backoffice y administracion.
+Comandos esperados por CI y QA local:
 
-Nota: el registro publico solo permite `customer` y `distributor`.
-
-Flujo de compra:
-- `POST /api/orders/` prepara la orden para pago.
-- El carrito se mantiene hasta pago exitoso.
-- Stock y conciliacion de carrito se aplican en `POST /api/webpay/commit/` autorizado.
-
-## Calidad y pruebas
 Backend:
+
 ```bash
 cd backend
 python manage.py check
@@ -91,42 +108,28 @@ python manage.py test
 ```
 
 Frontend:
+
 ```bash
 cd frontend
-npm ci
-npm run build
+npm run lint
 npm run test:ci
 npm run e2e
+npm audit --omit=dev --audit-level=moderate
 ```
 
-## Observabilidad
-- Logs backend en formato JSON estructurado.
-- Header de correlacion `X-Request-ID` en todas las respuestas API.
-- Eventos criticos trazados: creacion de orden, init/commit Webpay y cambios admin de pagos.
+> Por regla del repo, no ejecutar build local despu?s de cambios; el build se valida en GitHub Actions.
 
-## Flujo de trabajo recomendado
-0. Inicializar git (si el directorio no esta versionado):
-```bash
-git init
-```
-1. Crear rama con alcance acotado.
-2. Implementar cambios pequenos y verificables.
-3. Abrir PR con evidencia de pruebas y riesgos.
-4. Usar checklist de `.github/pull_request_template.md`.
+## Seguridad y tradeoffs
 
-## Roadmap resumido
-- Seguridad y configuracion por entorno: completado.
-- Robustez backend + Webpay + RBAC: completado base.
-- B2B y backoffice React: completado base funcional.
-- Refinamiento UI/UX premium (Fase 4): completado base + iteracion continua.
-- Mejor cobertura frontend E2E y observabilidad avanzada: siguiente iteracion.
+- El proyecto usa JWT en `localStorage` para simplificar la demo local. En producci?n conviene usar cookies `HttpOnly`, rotaci?n de refresh tokens y protecci?n CSRF acorde al despliegue.
+- Webpay usa sandbox. `.env.example` usa placeholders; configura tus credenciales de integraci?n localmente.
+- Los archivos `.env` reales est?n ignorados por Git.
 
-## Documentacion relacionada
-- [API](docs/API.md)
-- [Contribucion](CONTRIBUTING.md)
-- [AGENTS](AGENTS.md)
+## Documentaci?n relacionada
+
+- [Referencia API](docs/API.md)
+- [Auditor?a de cierre](docs/FINAL_AUDIT.md)
+- [Contribuci?n](CONTRIBUTING.md)
 - [Playbook de agentes](docs/AGENT_PLAYBOOK.md)
-- [Mapa MCP](docs/MCP_MAP.md)
 - [Tracker del plan](docs/PLAN_TRACKER.md)
 - [Plan visual Fase 4](docs/UIUX_PHASE4_PLAN.md)
-- [Auditoria final](docs/FINAL_AUDIT.md)

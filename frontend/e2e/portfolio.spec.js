@@ -4,7 +4,7 @@ const API_BASE_URL = process.env.E2E_API_URL || 'http://127.0.0.1:8000/api';
 const ACCESS_KEY = process.env.E2E_ACCESS_KEY || 'access';
 
 function buildUser() {
-  const unique = Date.now();
+  const unique = `${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
   return {
     username: `e2e_user_${unique}`,
     email: `e2e_${unique}@mail.test`,

@@ -52,7 +52,7 @@ class Command(BaseCommand):
             {
                 "username": os.getenv("PORTFOLIO_ADMIN_USERNAME", "admin_portfolio"),
                 "email": os.getenv("PORTFOLIO_ADMIN_EMAIL", "admin@autoparts.local"),
-                "password": os.getenv("PORTFOLIO_ADMIN_PASSWORD", "Admin123!"),
+                "password": os.getenv("PORTFOLIO_ADMIN_PASSWORD", "local-demo-admin-password"),
                 "role": "admin",
                 "is_staff": True,
                 "is_superuser": True,
@@ -60,7 +60,7 @@ class Command(BaseCommand):
             {
                 "username": os.getenv("PORTFOLIO_CUSTOMER_USERNAME", "cliente_demo"),
                 "email": os.getenv("PORTFOLIO_CUSTOMER_EMAIL", "cliente@autoparts.local"),
-                "password": os.getenv("PORTFOLIO_CUSTOMER_PASSWORD", "Cliente123!"),
+                "password": os.getenv("PORTFOLIO_CUSTOMER_PASSWORD", "local-demo-customer-password"),
                 "role": "customer",
                 "is_staff": False,
                 "is_superuser": False,
@@ -68,7 +68,7 @@ class Command(BaseCommand):
             {
                 "username": os.getenv("PORTFOLIO_DISTRIBUTOR_USERNAME", "dist_demo"),
                 "email": os.getenv("PORTFOLIO_DISTRIBUTOR_EMAIL", "dist@autoparts.local"),
-                "password": os.getenv("PORTFOLIO_DISTRIBUTOR_PASSWORD", "DistDemo123!"),
+                "password": os.getenv("PORTFOLIO_DISTRIBUTOR_PASSWORD", "local-demo-distributor-password"),
                 "role": "distributor",
                 "is_staff": False,
                 "is_superuser": False,
@@ -76,7 +76,7 @@ class Command(BaseCommand):
             {
                 "username": os.getenv("PORTFOLIO_CUSTOMER_QA_USERNAME", "cliente_qa"),
                 "email": os.getenv("PORTFOLIO_CUSTOMER_QA_EMAIL", "cliente.qa@autoparts.local"),
-                "password": os.getenv("PORTFOLIO_CUSTOMER_QA_PASSWORD", "ClienteQA123!"),
+                "password": os.getenv("PORTFOLIO_CUSTOMER_QA_PASSWORD", "local-demo-customer-qa-password"),
                 "role": "customer",
                 "is_staff": False,
                 "is_superuser": False,
@@ -84,7 +84,7 @@ class Command(BaseCommand):
             {
                 "username": os.getenv("PORTFOLIO_DISTRIBUTOR_QA_USERNAME", "dist_qa"),
                 "email": os.getenv("PORTFOLIO_DISTRIBUTOR_QA_EMAIL", "dist.qa@autoparts.local"),
-                "password": os.getenv("PORTFOLIO_DISTRIBUTOR_QA_PASSWORD", "DistQA123!"),
+                "password": os.getenv("PORTFOLIO_DISTRIBUTOR_QA_PASSWORD", "local-demo-distributor-qa-password"),
                 "role": "distributor",
                 "is_staff": False,
                 "is_superuser": False,

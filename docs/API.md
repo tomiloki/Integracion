@@ -21,6 +21,7 @@
 - `GET /api/products/`
   - query opcional: `q`, `search`, `category`, `channel`
   - `channel=b2b` requiere rol `distributor` o `admin`
+  - contrato publico: no expone campos internos como `internal_code` o `author`
 
 - `GET /api/catalog/`
   - alias de listado de catalogo
@@ -44,6 +45,8 @@ Nota de comportamiento:
 - `POST /api/webpay/init/` (`order_id`)
 - `POST /api/webpay/return/` (callback de retorno Webpay)
 - `POST /api/webpay/commit/` (`token_ws`)
+  - response publica minima: `payment`, `commit`, `already_committed`
+  - no devuelve detalle completo de usuario/productos; el frontend autenticado puede consultar `GET /api/orders/{id}/`
 
 Notas:
 - `POST /api/payments/` esta deprecado y responde `410`.
